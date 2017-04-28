@@ -18,7 +18,7 @@ namespace CafeOnMaps
 
 
         public string Adress { get; }
-        public string Name { get; }
+        public string Name { get; private set; }
         public string PhoneNumber { get; }
         private static List<Cafe> Cafes { get; set; }
         public string Link { get { return link; } private set { } }
@@ -115,7 +115,10 @@ namespace CafeOnMaps
             {
                 if (cafe.Name.Equals(cuurentName))
                 {
-                    if (cafe.password.Equals)
+                    if (cafe.password.Equals(password))
+                    {
+                        cafe.Name = newName;
+                    }
                 }
             }
         }
