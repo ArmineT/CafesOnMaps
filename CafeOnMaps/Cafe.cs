@@ -10,6 +10,8 @@ namespace CafeOnMaps
     class Cafe
     {
         private string ss = "Have I done everything well?";
+        private string tt = "Yes my dear";
+
 
         private string link = "Cafe don't have a link, sorry.";
         private string email = "Cafe don't have an email, sorry.";
