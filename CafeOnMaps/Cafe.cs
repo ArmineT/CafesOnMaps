@@ -7,10 +7,9 @@ using System.Device.Location;
 
 namespace CafeOnMaps
 {
-    class Cafe
+
+    internal class Cafe
     {
-        private string ss = "Have I done everything well?";
-        private string tt = "Yes my dear";
 
 
         private string link = "Cafe don't have a link, sorry.";
@@ -151,6 +150,66 @@ namespace CafeOnMaps
                     if (cafe.password.Equals(password))
                     {
                         cafe.PhoneNumber = newPhoneNumber;
+                    }
+                }
+            }
+        }
+
+        public static void ChangeCafeLink(string cuurentName, string password, string newLink)
+        {
+            foreach (Cafe cafe in Cafes)
+            {
+                if (cafe.Name.Equals(cuurentName))
+                {
+                    if (cafe.password.Equals(password))
+                    {
+                        cafe.Link = newLink;
+                    }
+                }
+            }
+        }
+
+
+        public static void ChangeCafeEmail(string cuurentName, string password, string newEmail)
+        {
+            foreach (Cafe cafe in Cafes)
+            {
+                if (cafe.Name.Equals(cuurentName))
+                {
+                    if (cafe.password.Equals(password))
+                    {
+                        cafe.eMail = newEmail;
+                    }
+                }
+            }
+        }
+
+
+
+        public static void ChangeCafeOpenTime(string cuurentName, string password, TimeSpan newOpenTime)
+        {
+            foreach (Cafe cafe in Cafes)
+            {
+                if (cafe.Name.Equals(cuurentName))
+                {
+                    if (cafe.password.Equals(password))
+                    {
+                        cafe.openTime = newOpenTime;
+                    }
+                }
+            }
+        }
+
+
+        public static void ChangeCafeCloseTime(string cuurentName, string password, TimeSpan newCloseTime)
+        {
+            foreach (Cafe cafe in Cafes)
+            {
+                if (cafe.Name.Equals(cuurentName))
+                {
+                    if (cafe.password.Equals(password))
+                    {
+                        cafe.closeTime = newCloseTime;
                     }
                 }
             }
