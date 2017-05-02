@@ -18,16 +18,16 @@ namespace CafeOnMaps
         private TimeSpan openTime;
         private TimeSpan closeTime;
         private List<int> grades = new List<int>();
-        private string password;
 
 
-        public string Adress { get; }
+        public string password { get; private set; }
+        public string Address { get; private set; }
         public string Name { get; private set; }
-        public string PhoneNumber { get; }
+        public string PhoneNumber { get; private set; }
         private static List<Cafe> Cafes { get; set; }
         public string Link { get { return link; } private set { } }
         public string eMail { get { return email; } private set { } }
-        public GeoCoordinate Coordinates { get; set; }
+        public GeoCoordinate Coordinates { get; private set; }
 
 
         static Cafe()
@@ -38,7 +38,7 @@ namespace CafeOnMaps
         public Cafe(string name, string adress, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string password)
         {
             Name = name;
-            Adress = adress;
+            Address = adress;
             phonenumber = PhoneNumber;
             this.openTime = openTime;
             this.closeTime = closeTime;
@@ -50,7 +50,7 @@ namespace CafeOnMaps
             string password)
         {
             Name = name;
-            Adress = adress;
+            Address = adress;
             phonenumber = PhoneNumber;
             this.openTime = openTime;
             this.closeTime = closeTime;
@@ -127,10 +127,39 @@ namespace CafeOnMaps
             }
         }
 
+        public static void ChangeCafeAdress(string cuurentName, string password, string newAddress)
+        {
+            foreach (Cafe cafe in Cafes)
+            {
+                if (cafe.Name.Equals(cuurentName))
+                {
+                    if (cafe.password.Equals(password))
+                    {
+                        cafe.Address = newAddress;
+                    }
+                }
+            }
+        }
+
+
+        public static void ChangeCafePhoneNumber(string cuurentName, string password, string newPhoneNumber)
+        {
+            foreach (Cafe cafe in Cafes)
+            {
+                if (cafe.Name.Equals(cuurentName))
+                {
+                    if (cafe.password.Equals(password))
+                    {
+                        cafe.PhoneNumber = newPhoneNumber;
+                    }
+                }
+            }
+        }
+
         public override string ToString()
         {
             return String.Format("Name: {0} \n  Adress: {1} \n Phone Number: {2}  \n  Link: {3} \n   eMail: {4} \n",
-                Name, Adress, PhoneNumber, link, email) + String.Format("Open Time: {0} + \n Close Time: {1}", openTime, closeTime);
+                Name, Address, PhoneNumber, link, email) + String.Format("Open Time: {0} + \n Close Time: {1}", openTime, closeTime);
         }
     }
 }
