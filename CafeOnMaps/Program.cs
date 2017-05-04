@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Cafes
 {
@@ -11,6 +12,13 @@ namespace Cafes
         static void Main(string[] args)
         {
 
+            //  Text File   //
+
+            StreamWriter output = new StreamWriter
+                (@"C:\Users\Sahak\Source\Repos\CafesOnMaps2\CafeOnMaps\output.txt");
+
+            //  text File End   //
+           
             List<Cafe> cafes = new List<Cafe>();
             string input = "";
             string cafeName, cafeAddress, cafePhoneNumber, cafePassword;
@@ -40,6 +48,13 @@ namespace Cafes
 
             cafes.Add(myFirstCafe);
             cafes.Add(mySecondCafe);
+            output.WriteLine(myFirstCafe);
+            output.Flush();
+            //output.Close();
+            output.WriteLine("--------------------------");
+            output.WriteLine(mySecondCafe);
+            output.Flush();
+            
 
             while (true)
             {
@@ -128,12 +143,22 @@ namespace Cafes
                             cafes.Add(new Cafe(cafeName, cafeAddress, cafePhoneNumber, openTime, closeTime,
                                 cafeLink, cafeEmail, cafePassword));
                             Console.WriteLine("Cafe added");
+
+                            output.WriteLine("------------------------");
+                            output.WriteLine(new Cafe(cafeName, cafeAddress, cafePhoneNumber, openTime, closeTime,
+                                cafeLink, cafeEmail, cafePassword));
+                            output.Flush();
                         }
                         else
                         {
                             cafes.Add(new Cafe(cafeName, cafeAddress, cafePhoneNumber, openTime, closeTime,
                                  cafePassword));
                             Console.WriteLine("Cafe added");
+
+                            output.WriteLine("------------------------");
+                            output.WriteLine(new Cafe(cafeName, cafeAddress, cafePhoneNumber, openTime, closeTime,
+                                cafeLink, cafeEmail, cafePassword));
+                            output.Flush();
                         }
 
 
@@ -260,11 +285,12 @@ namespace Cafes
                     }
 
 
-                    Console.WriteLine("Have you finished your work as Administrator?");
+                    Console.WriteLine("Have you finished your work as Administrator? (Yes or No)");
                     input = Console.ReadLine();
                     if (input.ToLower().Equals("yes"))
                     {
                         imAdmin = false;
+                        output.Close();
                     }
                     else if (input.ToLower().Equals("no")) { }
                     else
