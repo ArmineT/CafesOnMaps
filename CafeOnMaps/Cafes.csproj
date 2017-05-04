@@ -7,8 +7,8 @@
     <ProjectGuid>{AA927B92-CA02-4910-AD15-CB9B4759ECD9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CafeOnMaps</RootNamespace>
-    <AssemblyName>CafeOnMaps</AssemblyName>
+    <RootNamespace>Cafes</RootNamespace>
+    <AssemblyName>Cafes</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account.cs" />
     <Compile Include="Cafe.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

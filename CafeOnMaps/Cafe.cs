@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Device.Location;
 
-namespace CafeOnMaps
+namespace Cafes
+
 {
 
-    internal class Cafe
+    internal class Cafe : IComparable<Cafe>
     {
-
-
+        private string password = "";
         private string link = "Cafe don't have a link, sorry.";
         private string email = "Cafe don't have an email, sorry.";
         private TimeSpan openTime;
@@ -19,20 +19,34 @@ namespace CafeOnMaps
         private List<int> grades = new List<int>();
 
 
-        public string password { get; private set; }
+        public string Password
+        {
+            get
+            {
+                return password;
+            }
+
+            private set
+            {
+                if (value.Length < 8)
+                {
+                    throw new Exception("Invalid password");
+                }
+                else
+                {
+                    password = value;
+                }
+            }
+        }
         public string Address { get; private set; }
         public string Name { get; private set; }
         public string PhoneNumber { get; private set; }
-        private static List<Cafe> Cafes { get; set; }
         public string Link { get { return link; } private set { } }
         public string eMail { get { return email; } private set { } }
         public GeoCoordinate Coordinates { get; private set; }
 
 
-        static Cafe()
-        {
-            Cafes = new List<Cafe>();
-        }
+
 
         public Cafe(string name, string adress, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string password)
         {
@@ -41,9 +55,9 @@ namespace CafeOnMaps
             phonenumber = PhoneNumber;
             this.openTime = openTime;
             this.closeTime = closeTime;
-            this.password = password;
-            Cafes.Add(new Cafe(name, adress, phonenumber, openTime, closeTime, password));
+            this.Password = password;
         }
+
 
         public Cafe(string name, string adress, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string link, string eMail,
             string password)
@@ -55,8 +69,7 @@ namespace CafeOnMaps
             this.closeTime = closeTime;
             this.link = link;
             email = eMail;
-            this.password = password;
-            Cafes.Add(new Cafe(name, adress, phonenumber, openTime, closeTime, link, eMail, password));
+            this.Password = password;
         }
 
 
@@ -75,17 +88,7 @@ namespace CafeOnMaps
             return (decimal)sum / grades.Count;
         }
 
-        public Cafe SearchCafeByName(string name)
-        {
-            foreach (Cafe cafe in Cafes)
-            {
-                if (cafe.Name.Equals(name))
-                {
-                    return cafe;
-                }
-            }
-            return null;
-        }
+
 
         public bool IsOpenNow()
         {
@@ -95,123 +98,86 @@ namespace CafeOnMaps
                 return false;
         }
 
-        public void SetLinkAndMail(string link, string eMail)
-        {
-            Link = link;
-            this.eMail = eMail;
+        //public void SetLinkAndMail(string password ,string link, string eMail)
+        //{
+        //    Link = link;
+        //    this.eMail = eMail;
 
-        }
+        //}
 
-        public List<Cafe> ShowAllCafes()
-        {
-            return Cafes;
-        }
+
 
         public string OpenTimes()
         {
             return openTime + "-" + closeTime;
         }
 
-        public static void ChangeCafeName(string cuurentName, string password, string newName)
+        public void ChangeCafeName(string password, string newName)
         {
-            foreach (Cafe cafe in Cafes)
+
+            if (this.Password.Equals(password))
             {
-                if (cafe.Name.Equals(cuurentName))
-                {
-                    if (cafe.password.Equals(password))
-                    {
-                        cafe.Name = newName;
-                    }
-                }
+                this.Name = newName;
             }
+
         }
 
-        public static void ChangeCafeAdress(string cuurentName, string password, string newAddress)
+        public void ChangeCafeAddress(string password, string newAddress)
         {
-            foreach (Cafe cafe in Cafes)
+
+            if (this.Password.Equals(password))
             {
-                if (cafe.Name.Equals(cuurentName))
-                {
-                    if (cafe.password.Equals(password))
-                    {
-                        cafe.Address = newAddress;
-                    }
-                }
+                this.Address = newAddress;
             }
         }
 
 
-        public static void ChangeCafePhoneNumber(string cuurentName, string password, string newPhoneNumber)
+        public void ChangeCafePhoneNumber(string password, string newPhoneNumber)
         {
-            foreach (Cafe cafe in Cafes)
+
+            if (this.Password.Equals(password))
             {
-                if (cafe.Name.Equals(cuurentName))
-                {
-                    if (cafe.password.Equals(password))
-                    {
-                        cafe.PhoneNumber = newPhoneNumber;
-                    }
-                }
+                this.PhoneNumber = newPhoneNumber;
             }
         }
 
-        public static void ChangeCafeLink(string cuurentName, string password, string newLink)
+        public void ChangeCafeLink(string password, string newLink)
         {
-            foreach (Cafe cafe in Cafes)
+
+            if (this.Password.Equals(password))
             {
-                if (cafe.Name.Equals(cuurentName))
-                {
-                    if (cafe.password.Equals(password))
-                    {
-                        cafe.Link = newLink;
-                    }
-                }
+                this.Link = newLink;
             }
         }
 
 
-        public static void ChangeCafeEmail(string cuurentName, string password, string newEmail)
+        public void ChangeCafeEmail(string password, string newEmail)
         {
-            foreach (Cafe cafe in Cafes)
+
+            if (this.Password.Equals(password))
             {
-                if (cafe.Name.Equals(cuurentName))
-                {
-                    if (cafe.password.Equals(password))
-                    {
-                        cafe.eMail = newEmail;
-                    }
-                }
+                this.eMail = newEmail;
             }
+
         }
 
 
 
-        public static void ChangeCafeOpenTime(string cuurentName, string password, TimeSpan newOpenTime)
+        public void ChangeCafeOpenTime(string password, TimeSpan newOpenTime)
         {
-            foreach (Cafe cafe in Cafes)
+
+            if (this.Password.Equals(password))
             {
-                if (cafe.Name.Equals(cuurentName))
-                {
-                    if (cafe.password.Equals(password))
-                    {
-                        cafe.openTime = newOpenTime;
-                    }
-                }
+                this.openTime = newOpenTime;
             }
         }
 
 
-        public static void ChangeCafeCloseTime(string cuurentName, string password, TimeSpan newCloseTime)
+        public void ChangeCafeCloseTime(string password, TimeSpan newCloseTime)
         {
-            foreach (Cafe cafe in Cafes)
+            if (this.Password.Equals(password))
             {
-                if (cafe.Name.Equals(cuurentName))
-                {
-                    if (cafe.password.Equals(password))
-                    {
-                        cafe.closeTime = newCloseTime;
-                    }
-                }
+                this.closeTime = newCloseTime;
             }
         }
 
@@ -219,6 +185,16 @@ namespace CafeOnMaps
         {
             return String.Format("Name: {0} \n  Adress: {1} \n Phone Number: {2}  \n  Link: {3} \n   eMail: {4} \n",
                 Name, Address, PhoneNumber, link, email) + String.Format("Open Time: {0} + \n Close Time: {1}", openTime, closeTime);
+        }
+
+        public int CompareTo(Cafe other)
+        {
+            if (Rate() > other.Rate())
+                return 1;
+            else if (Rate() == other.Rate())
+                return 0;
+            else
+                return -1;
         }
     }
 }
