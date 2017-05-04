@@ -8,16 +8,4 @@ Open Time: 08:30:00 +
 --------------------------
 Name: AHA 
   Adress: Shiraz 74 
- Phone Number:   
-  Link: www.AHA.am 
-   eMail: AHA@mail.ru 
-Open Time: 07:30:00 + 
- Close Time: 23:30:00
-------------------------
-Name: a 
-  Adress: a 
- Phone Number:   
-  Link:  
-   eMail:  
-Open Time: 12:04:00 + 
- Close Time: 04:06:00
+ Phone Number:   dssssssssssssss
