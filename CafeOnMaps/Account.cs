@@ -11,6 +11,6 @@ namespace Cafes
         private string login;
         private string password;
 
-        pub
+        
     }
 }
