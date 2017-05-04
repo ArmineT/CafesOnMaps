@@ -98,12 +98,6 @@ namespace Cafes
                 return false;
         }
 
-        //public void SetLinkAndMail(string password ,string link, string eMail)
-        //{
-        //    Link = link;
-        //    this.eMail = eMail;
-
-        //}
 
 
 
@@ -184,7 +178,8 @@ namespace Cafes
         public override string ToString()
         {
             return String.Format("Name: {0} \n  Adress: {1} \n Phone Number: {2}  \n  Link: {3} \n   eMail: {4} \n",
-                Name, Address, PhoneNumber, link, email) + String.Format("Open Time: {0} + \n Close Time: {1}", openTime, closeTime);
+                Name, Address, PhoneNumber, link, email) 
+                + String.Format("Open Time: {0} + \n Close Time: {1}", openTime, closeTime);
         }
 
         public int CompareTo(Cafe other)
