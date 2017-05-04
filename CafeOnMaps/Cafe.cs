@@ -44,9 +44,13 @@ namespace Cafes
         public string Link { get { return link; } private set { } }
         public string eMail { get { return email; } private set { } }
         public GeoCoordinate Coordinates { get; private set; }
+        public List<string> Review { get; set; }
 
 
-
+        static Cafe()
+        {
+            Review = new List<string>();
+        }
 
         public Cafe(string name, string adress, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string password)
         {
@@ -178,7 +182,7 @@ namespace Cafes
         public override string ToString()
         {
             return String.Format("Name: {0} \n  Adress: {1} \n Phone Number: {2}  \n  Link: {3} \n   eMail: {4} \n",
-                Name, Address, PhoneNumber, link, email) 
+                Name, Address, PhoneNumber, link, email)
                 + String.Format("Open Time: {0} + \n Close Time: {1}", openTime, closeTime);
         }
 

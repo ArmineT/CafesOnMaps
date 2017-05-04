@@ -315,7 +315,8 @@ namespace Cafes
                                                         imSearchingCafe = false;
                                                         break;
                                                     }
-                                                    else if (input.Equals("no")) { }
+                                                    else if (input.Equals("no"))
+                                                        break;
                                                     else
                                                         Console.WriteLine("Please,follow the instructions!");
 
@@ -335,6 +336,7 @@ namespace Cafes
                                     }
                                     break;
                                 }
+
                             case "search by address":
                                 {
                                     inputIsFalse = false;
@@ -359,7 +361,8 @@ namespace Cafes
                                                         imSearchingCafe = false;
                                                         break;
                                                     }
-                                                    else if (input.Equals("no")) { }
+                                                    else if (input.Equals("no"))
+                                                        break;
                                                     else
                                                         Console.WriteLine("Please,follow the instructions!");
 
@@ -437,6 +440,7 @@ namespace Cafes
                                         break;
                                     }
                                 }
+
                             default:
                                 {
                                     Console.WriteLine("Please, follow the instructions.");
