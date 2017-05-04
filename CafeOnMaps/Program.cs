@@ -35,7 +35,7 @@ namespace Cafes
             bool imSearchingCafe = true;
             bool searchingCafeExist = false;
             bool isOpenCafeNow = false;
-            bool inputIsCorret = false;
+            bool inputIsFalse = true;
 
 
 
@@ -305,18 +305,21 @@ namespace Cafes
                         Console.WriteLine(cafes[i].Name + "\n");
                     }
 
-                    inputIsCorret = false;
+                    inputIsFalse = true;
                     Console.WriteLine("Now you can:");
-                    while (!inputIsCorret)
+                    while (inputIsFalse)
                     {
+                        Console.WriteLine("Search cafe by name                          Print \"Search by name\"");
+                        Console.WriteLine("Search cafe by address                       Print \"Search by address\"");
+                        Console.WriteLine("If you want to create an account             Print \"Careate\"");
+                        Console.WriteLine("If you want to rate or write a review        Print \"Rate or write a review\"");
 
-                        Console.WriteLine("Search cafe by name    Print \"Search by name\"");
-                        Console.WriteLine("Search cafe by address    Print \"Search by address\"");
                         input = Console.ReadLine().ToLower();
                         switch (input)
                         {
                             case "search by name":
                                 {
+                                    inputIsFalse = false;
                                     while (imSearchingCafe)
                                     {
                                         searchingCafeExist = false;
@@ -358,7 +361,113 @@ namespace Cafes
                                     }
                                     break;
                                 }
+                            case "search by address":
+                                {
+                                    inputIsFalse = false;
+                                    while (imSearchingCafe)
+                                    {
+                                        searchingCafeExist = false;
+                                        Console.WriteLine("Now,please,enter the address of cafe which you are interested in");
+                                        input = Console.ReadLine();
+                                        for (int i = 0; i < cafes.Count; i++)
+                                        {
+                                            if (input.Equals(cafes[i].Address))
+                                            {
+                                                searchingCafeExist = true;
+                                                Console.WriteLine("There is all information about that cafe:");
+                                                Console.WriteLine(cafes[i].ToString());
+                                                while (true)
+                                                {
+                                                    Console.WriteLine("Do you finish? (Answer \"Yes\" or \"No\")");
+                                                    input = Console.ReadLine().ToLower();
+                                                    if (input.Equals("yes"))
+                                                    {
+                                                        imSearchingCafe = false;
+                                                        break;
+                                                    }
+                                                    else if (input.Equals("no")) { }
+                                                    else
+                                                        Console.WriteLine("Please,follow the instructions!");
 
+                                                }
+                                            }
+                                        }
+
+                                        if (searchingCafeExist == false)
+                                        {
+                                            Console.WriteLine("Cafe isn't exist");
+                                            Console.WriteLine("Here is our cafes by decreasing rates,please choose one:");
+                                            for (int i = 0; i < cafes.Count; i++)
+                                            {
+                                                Console.WriteLine(cafes[i].Address + "\n");
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+
+
+
+                            case "rate or write a review":
+                                {
+                                    imSearchingCafe = true;
+                                    while (imSearchingCafe)
+                                    {
+                                        searchingCafeExist = false;
+                                        Console.WriteLine("Now,please,enter the name of cafe which you want to rate");
+                                        input = Console.ReadLine();
+                                        for (int i = 0; i < cafes.Count; i++)
+                                        {
+                                            if (input.Equals(cafes[i].Name))
+                                            {
+                                                while (true)
+                                                {
+                                                    Console.WriteLine("Please,print grade (1 to 10)");
+                                                    input = Console.ReadLine();
+                                                    int grade;
+                                                    if (int.TryParse(input, out grade))
+                                                    {
+                                                        if (grade <= 10)
+                                                        {
+                                                            cafes[i].AddGrade(grade);
+                                                            Console.WriteLine("Grade added");
+                                                            break;
+                                                        }
+                                                        else
+                                                            Console.WriteLine("Follow instructions!");
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        //bool haveAccount = false;
+                                        //bool haveAccountAnswerFalse = true;
+                                        //while (haveAccountAnswerFalse)
+                                        //{
+                                        //    Console.WriteLine("Do you have an account(Answer \"Yes\" or \"No\"):");
+                                        //    input = Console.ReadLine().ToLower();
+                                        //    if (input.Equals("yes"))
+                                        //    {
+                                        //        haveAccountAnswerFalse = false;
+                                        //        haveAccount = true;
+
+                                        //    }
+                                        //    else if (input.Equals("no"))
+                                        //    {
+                                        //        haveAccountAnswerFalse = false;
+                                        //        haveAccount = false;
+                                        //    } else
+                                        //        Console.WriteLine("Please,follow the instructions");
+
+                                        //}
+                                        break;
+                                    }
+                                }
+                            default:
+                                {
+                                    Console.WriteLine("Please, follow the instructions.");
+                                    break;
+                                }
                         }
 
                     }
@@ -374,38 +483,11 @@ namespace Cafes
                     //        }
 
                     //     }
-
-                    //    imSearchingCafe = true;
-                    //    while (imSearchingCafe)
-                    //    {
-                    //        searchingCafeExist = false;
-                    //        Console.WriteLine("Now,please,enter the name of cafe which you are interested in");
-                    //        input = Console.ReadLine();
-                    //        for (int i = 0; i < cafes.Count; i++)
-                    //        {
-                    //            if (input.Equals(cafes[i].Name))
-                    //            {
-                    //                searchingCafeExist = true;
-                    //                Console.WriteLine("There is all information about that cafe:");
-                    //                Console.WriteLine(cafes[i].ToString());
-                    //            }
-
-                    //        }
-
-                    //        if (searchingCafeExist == false)
-                    //        {
-                    //            Console.WriteLine("Cafe isn't exist");
-                    //            Console.WriteLine("Here is our cafes by decreasing rates,please choose one:");
-                    //            for (int i = 0; i < cafes.Count; i++)
-                    //            {
-                    //                Console.WriteLine(cafes[i].Name + "\n");
-                    //            }
-                    //        }
-                    //    }
                 }
-
             }
 
         }
+
     }
 }
+
