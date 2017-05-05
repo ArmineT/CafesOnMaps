@@ -47,9 +47,9 @@ namespace Cafes
         public string eMail { get { return email; } private set { } }
         public GeoCoordinate Coordinates { get; private set; }
 
-        
 
-    
+
+
 
         public Cafe(string name, string adress, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string password)
         {
@@ -90,7 +90,7 @@ namespace Cafes
             {
                 sum += grade;
             }
-          
+
             return (decimal)sum / grades.Count;
         }
 
@@ -183,9 +183,15 @@ namespace Cafes
 
         public override string ToString()
         {
-            return String.Format("Name: {0} \nAdress: {1} \nPhone Number: {2}  \nLink: {3} \neMail: {4} \n",
+            string returnValue = String.Format("Name: {0} \nAdress: {1} \nPhone Number: {2}  \nLink: {3} \neMail: {4} \n",
                 Name, Address, PhoneNumber, link, email)
-                + String.Format("Open Time: {0} + \nClose Time: {1} + \nRate: {2}", openTime, closeTime,Rate());
+                + String.Format("Open Time: {0}  \nClose Time: {1} \nRate: {2}\nAll reviews", openTime, closeTime, Rate());
+
+            foreach (String rev in Review)
+            {
+                returnValue += "\n" + rev;
+            }
+            return returnValue;
         }
 
         public int CompareTo(Cafe other)
