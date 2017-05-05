@@ -30,7 +30,7 @@ namespace Cafes
 
             private set
             {
-                if (value.Length < 8)
+                if (value.Length < 7)
                 {
                     throw new Exception("Invalid password");
                 }
