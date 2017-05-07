@@ -134,10 +134,21 @@ namespace Cafes
                             if (input.Equals("yes"))
                             {
                                 eMailAndLinkExist = true;
-                                Console.Write("Please,print your cafe's link: ");
-                                cafeLink = Console.ReadLine();
-                                Console.Write("Please,print your cafe's eMail: ");
-                                cafeEmail = Console.ReadLine();
+                                while (true)
+                                {
+                                    Console.Write("Please,type your cafe's link: ");
+                                    cafeLink = Console.ReadLine();
+                                    if (CheckLink(cafeLink)) { break; }
+                                    else { Console.WriteLine("Invalid link (It must be in this from \"http://somewhere.something\")"); }
+
+                                }
+                                while (true)
+                                {
+                                    Console.Write("Please,type your cafe's eMail: ");
+                                    cafeEmail = Console.ReadLine();
+                                    if (CheckEMailAdress(cafeEmail)) { break; }
+                                    else { Console.WriteLine("Invalid eMail address"); }
+                                }
                                 break;
                             }
                             else if (input.Equals("no")) { break; }
@@ -172,10 +183,11 @@ namespace Cafes
                                 }
                             }
 
-                            if (cafePassword.Length >= 8)
+                            if (cafePassword.Length >= 9)
                             {
                                 break;
                             }
+                            Console.WriteLine("Invalid password");
 
                         }
 
@@ -247,7 +259,7 @@ namespace Cafes
                             }
                         }
                         Console.WriteLine();
-
+                        cafeExist = false;
                         for (int i = 0; i < cafes.Count; i++)
                         {
                             if (cafes[i].Name.Equals(cafeName) && cafes[i].Password.Equals(cafePassword))
@@ -261,9 +273,9 @@ namespace Cafes
 
                                 while (doingChanges)
                                 {
-                                    Console.WriteLine("Change cafe name                   Type \" Change Cafe Name\" ");
-                                    Console.WriteLine("Change cafe address                Type \"Change Cafe Addres\" ");
-                                    Console.WriteLine("Change cafe phone number           Type \"Change Cafe Phone Number\" ");
+                                    Console.WriteLine("Change cafe name                   Type \"Change Name\" ");
+                                    Console.WriteLine("Change cafe address                Type \"Change Addres\" ");
+                                    Console.WriteLine("Change cafe phone number           Type \"Change Phone Number\" ");
                                     Console.WriteLine("Change cafe Email                  Type \"Change Email\" ");
                                     Console.WriteLine("Change cafe link                   Type \"Change Link\" ");
                                     Console.WriteLine("If end your work with this caffe   Type \"Finish work with this cafe\" ");
@@ -274,7 +286,7 @@ namespace Cafes
 
                                     switch (input)
                                     {
-                                        case "change cafe name":
+                                        case "change name":
                                             {
                                                 Console.Write("Type new name:");
                                                 cafes[i].ChangeCafeName(cafePassword, Console.ReadLine());
@@ -282,7 +294,7 @@ namespace Cafes
                                                 break;
                                             }
 
-                                        case "change cafe addres":
+                                        case "change addres":
                                             {
                                                 Console.Write("Type new address:");
                                                 cafes[i].ChangeCafeAddress(cafePassword, Console.ReadLine());
@@ -291,7 +303,7 @@ namespace Cafes
                                                 break;
                                             }
 
-                                        case "change cafe phone number":
+                                        case "change phone number":
                                             {
                                                 Console.Write("Type new phone number:");
                                                 cafes[i].ChangeCafePhoneNumber(cafePassword, Console.ReadLine());
@@ -302,8 +314,14 @@ namespace Cafes
 
                                         case "change email":
                                             {
-                                                Console.Write("Type new Email:");
-                                                cafes[i].ChangeCafeEmail(cafePassword, Console.ReadLine());
+                                                while (true)
+                                                {
+                                                    Console.Write("Type new Email:");
+                                                    cafeEmail = Console.ReadLine();
+                                                    if (CheckEMailAdress(cafeEmail)) { break; }
+                                                    else { Console.WriteLine("Invalid eMail address"); }
+                                                }
+                                                cafes[i].ChangeCafeEmail(cafePassword, cafeEmail);
                                                 Console.WriteLine("Email was changed");
 
                                                 break;
@@ -311,8 +329,15 @@ namespace Cafes
 
                                         case "change link":
                                             {
-                                                Console.WriteLine("Type new Link:");
-                                                cafes[i].ChangeCafeLink(cafePassword, Console.ReadLine());
+                                                while (true)
+                                                {
+                                                    Console.WriteLine("Type new Link:");
+                                                    cafeLink = Console.ReadLine();
+                                                    if (CheckLink(cafeLink)) { break; }
+                                                    else { Console.WriteLine("Invalid link (It must be in this from \"http://somewhere.something\")"); }
+
+                                                }
+                                                cafes[i].ChangeCafeLink(cafePassword, cafeLink);
                                                 Console.WriteLine("Link was changed");
 
                                                 break;
@@ -507,10 +532,29 @@ namespace Cafes
                                     while (loginFailed)
                                     {
                                         Console.WriteLine("Please,input correct login and password");
-                                        Console.WriteLine("login: ");
+                                        Console.WriteLine("Login: ");
                                         login = Console.ReadLine();
-                                        Console.WriteLine("password: ");
-                                        password = Console.ReadLine();
+                                        Console.WriteLine("Password: ");
+                                        password = "";
+
+                                        key = Console.ReadKey(true);
+                                        password += key.KeyChar;
+                                        Console.Write("#");
+
+                                        while (key.Key != ConsoleKey.Enter)
+                                        {
+                                            key = Console.ReadKey(true);
+
+                                            if (key.Key != ConsoleKey.Backspace)
+                                            {
+                                                password += key.KeyChar;
+                                                Console.Write("#");
+                                            }
+                                            else
+                                            {
+                                                Console.Write("\b");
+                                            }
+                                        }
 
                                         foreach (Account account in accs)
                                             if (account.Login.Equals(login) && account.Password.Equals(password))
@@ -519,6 +563,7 @@ namespace Cafes
                                                 Console.WriteLine("You logged in succesfully.");
                                                 break;
                                             }
+                                        Console.WriteLine("Invalid login or password!");
 
                                     }
                                     imSearchingCafe = true;
@@ -551,7 +596,8 @@ namespace Cafes
                                             {
                                                 Console.WriteLine("There is no cafe by that name");
                                                 Console.WriteLine("Hello dear user \nHere is our cafes by decreasing rates:");
-                                                for (int j = 0; j < cafes.Count; j++)
+                                                cafes.Sort();
+                                                for (int j = cafes.Count - 1 ; j > -1; j--)
                                                 {
                                                     Console.WriteLine(cafes[j].Name);
                                                 }
@@ -681,8 +727,62 @@ namespace Cafes
                 }
 
             }
+        }
+        public static bool CheckEMailAdress(string Adress)
+        {
+            if (Adress.IndexOf('@') == -1) { return false; } // ther is no @
+            else
+                Adress = Adress.Substring(Adress.IndexOf('@'));
+
+            if (Adress.IndexOf('.') == -1)
+                return false;
+
+            switch (Adress.Substring(0, Adress.IndexOf('.')))//between the @ and the . characters
+            {
+                case "@gmail":
+                case "@mail":
+                case "@yahoo":
+                case "@outlook":
+                case "@yandex":
+                case "@armsoft":
+                    // if it is true , we countinue
+                    break;
+                default:
+                    return false;
+            }
+
+            switch (Adress.Substring(Adress.IndexOf('.')))//after .
+            {
+                case ".com":
+                case ".ru":
+                case ".org":
+                case ".am":
+                    // if it is true , we countinue
+                    break;
+                default:
+                    return false;
+            }
+
+            //everything is ok
+            return true;
+        }
+
+        public static bool CheckLink(string link)
+        {
+            if (link.Length >= 10) //it must be minimum http://a.a 
+            {
+                if (link.Substring(0, 7).Equals("http://"))
+                {
+                    if (link.IndexOf('.') == (link.Length - 1) || link.IndexOf('.') == link.Length - 2 || link.IndexOf('.') == -1) { return false; }
+                    else { return true; }
+                }
+                else { return false; }
+            }
+            else { return false; }
 
         }
     }
+
 }
+
 
