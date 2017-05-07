@@ -26,7 +26,7 @@ namespace Cafes
             ConsoleKeyInfo key;
 
             string input = "";
-            string cafeName, cafeAddress, cafePhoneNumber, cafePassword;
+            string cafeName, cafeAddress, cafePhoneNumber, cafePassword = "";
             string cafeLink = "Cafe don't have a link, sorry.";
             string cafeEmail = "Cafe don't have a eMail, sorry.";
             string[] hourAndMinute = new string[2];
@@ -64,7 +64,7 @@ namespace Cafes
 
             while (true)
             {
-                Console.WriteLine("Print \"User\" if you are user \nPrint \"Admin\" if you are administrator\n Print \"Exit\" if you want to exit all.");
+                Console.WriteLine("Print \"User\" if you are user \nPrint \"Admin\" if you are administrator\nPrint \"Exit\" if you want to exit all.");
                 input = Console.ReadLine();
                 if (input.ToLower().Equals("admin"))
                     imAdmin = true;
@@ -126,10 +126,10 @@ namespace Cafes
                         hourAndMinute = (Console.ReadLine()).Split(':');
                         closeTime = new TimeSpan(Convert.ToInt16(hourAndMinute[0]),
                             Convert.ToInt16(hourAndMinute[1]), 0);
-                        Console.WriteLine("Do you have link and mail ? (Yes or No) ");
 
                         while (true)
                         {
+                            Console.WriteLine("Do you have link and mail ? (Yes or No) ");
                             input = Console.ReadLine().ToLower();
                             if (input.Equals("yes"))
                             {
@@ -147,17 +147,23 @@ namespace Cafes
                             }
                         }
 
-                        Console.WriteLine("You must set password for your cafe:");
+                        Console.Write("You must set password for your cafe:");
                         while (true)
                         {
-                            Console.WriteLine("Please,enter your password (It must be more than 7 characters): ");
-                            do
+                            cafePassword = "";
+                            Console.WriteLine("\nPlease,enter your password (It must be more than 7 characters): ");
+
+                            key = Console.ReadKey(true);
+                            cafePassword += key.KeyChar;
+                            Console.Write("*");
+
+                            while (key.Key != ConsoleKey.Enter)
                             {
                                 key = Console.ReadKey(true);
 
                                 if (key.Key != ConsoleKey.Backspace)
                                 {
-                                    pass += key.KeyChar;
+                                    cafePassword += key.KeyChar;
                                     Console.Write("*");
                                 }
                                 else
@@ -165,17 +171,15 @@ namespace Cafes
                                     Console.Write("\b");
                                 }
                             }
-                            while (key.Key != ConsoleKey.Enter);
 
-                            if (pass.Length >= 8)
+                            if (cafePassword.Length >= 8)
                             {
                                 break;
                             }
 
                         }
-                        cafePassword = pass;
 
-
+                        Console.WriteLine();
 
                         if (eMailAndLinkExist)
                         {
@@ -218,9 +222,32 @@ namespace Cafes
                     ////// As admin make changes
                     while (makeChanges)
                     {
-                        Console.WriteLine("Please,print the name  and password of cafe,which you want to change:");
+                        Console.WriteLine("Please,type the name  and password of cafe,which you want to change:");
+                        Console.WriteLine("Type name: ");
                         cafeName = Console.ReadLine();
-                        cafePassword = Console.ReadLine();
+                        Console.WriteLine("Type password:  ");
+                        cafePassword = "";
+
+                        key = Console.ReadKey(true);
+                        cafePassword += key.KeyChar;
+                        Console.Write("*");
+
+                        while (key.Key != ConsoleKey.Enter)
+                        {
+                            key = Console.ReadKey(true);
+
+                            if (key.Key != ConsoleKey.Backspace)
+                            {
+                                cafePassword += key.KeyChar;
+                                Console.Write("*");
+                            }
+                            else
+                            {
+                                Console.Write("\b");
+                            }
+                        }
+                        Console.WriteLine();
+
                         for (int i = 0; i < cafes.Count; i++)
                         {
                             if (cafes[i].Name.Equals(cafeName) && cafes[i].Password.Equals(cafePassword))
@@ -239,8 +266,8 @@ namespace Cafes
                                     Console.WriteLine("Change cafe phone number           Type \"Change Cafe Phone Number\" ");
                                     Console.WriteLine("Change cafe Email                  Type \"Change Email\" ");
                                     Console.WriteLine("Change cafe link                   Type \"Change Link\" ");
-                                    Console.WriteLine("If end your work with this caffe   Type \"Finished work with this cafe\" ");
-                                    Console.WriteLine("If end your work with all changes  Type \"Finished work with changes\" ");
+                                    Console.WriteLine("If end your work with this caffe   Type \"Finish work with this cafe\" ");
+                                    Console.WriteLine("If end your work with all changes  Type \"Finish work with changes\" ");
 
 
                                     input = Console.ReadLine().ToLower();
@@ -291,13 +318,13 @@ namespace Cafes
                                                 break;
                                             }
 
-                                        case "finished work with this cafe":
+                                        case "finish work with this cafe":
                                             {
                                                 Console.WriteLine("Thank you for changes");
                                                 doingChanges = false;
                                                 break;
                                             }
-                                        case ("finished work with changes"):
+                                        case ("finish work with changes"):
                                             {
                                                 Console.WriteLine("Thank you for changes");
                                                 doingChanges = false;
@@ -315,23 +342,34 @@ namespace Cafes
                             }
 
                             if (cafeExist == false && i == cafes.Count() - 1)
+                            {
                                 Console.WriteLine("Invalid name or password");
+                                while (true)
+                                {
+                                    Console.WriteLine("Do you want try again and countinue changes (type \"Yes\" or \"No\")");
+                                    input = Console.ReadLine().ToLower();
+                                    if (input.Equals("yes")) { break; }
+                                    else if (input.Equals("no")) { makeChanges = false; break; }
+                                }
+                            }
                         }
 
 
                     }
 
-
-                    Console.WriteLine("Have you finished your work as Administrator? (Yes or No)");
-                    input = Console.ReadLine();
-                    if (input.ToLower().Equals("yes"))
+                    while (true)
                     {
-                        imAdmin = false;
-
+                        Console.WriteLine("Have you finished your work as Administrator? (Yes or No)");
+                        input = Console.ReadLine();
+                        if (input.ToLower().Equals("yes"))
+                        {
+                            imAdmin = false;
+                            break;
+                        }
+                        else if (input.ToLower().Equals("no")) { break; }
+                        else
+                            Console.WriteLine("Please,follow instructions! \nAnswer \"Yes\" or \"No\" ");
                     }
-                    else if (input.ToLower().Equals("no")) { }
-                    else
-                        Console.WriteLine("Please,follow instructions! \nAnswer \"Yes\" or \"No\" ");
                 }
                 //UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSEEEEEEEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRR
 
