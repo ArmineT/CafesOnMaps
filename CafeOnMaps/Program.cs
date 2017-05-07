@@ -117,15 +117,38 @@ namespace Cafes
                         cafeAddress = Console.ReadLine();
                         Console.Write("Please,print your cafe's phone number: ");
                         cafePhoneNumber = Console.ReadLine();
-                        Console.Write("Please,print your cafe's open time (hh:mm): ");
-                        hourAndMinute = (Console.ReadLine()).Split(':');
-                        openTime = new TimeSpan(Convert.ToInt16(hourAndMinute[0]),
-                            Convert.ToInt16(hourAndMinute[1]), 0);
-                        //unhandleds
-                        Console.Write("Please,print your cafe's close time (hh:mm): ");
-                        hourAndMinute = (Console.ReadLine()).Split(':');
-                        closeTime = new TimeSpan(Convert.ToInt16(hourAndMinute[0]),
-                            Convert.ToInt16(hourAndMinute[1]), 0);
+
+                        while (true)
+                        {
+                            try
+                            {
+                                Console.Write("Please,print your cafe's open time (hh:mm): ");
+                                hourAndMinute = (Console.ReadLine()).Split(':');
+                                openTime = new TimeSpan(Convert.ToInt16(hourAndMinute[0]),
+                                    Convert.ToInt16(hourAndMinute[1]), 0);
+                                break;
+                            }
+                            catch (System.FormatException)
+                            {
+                                Console.WriteLine("Incorrect input");
+                            }
+                        }
+
+                        while (true)
+                        {
+                            try
+                            {
+                                Console.Write("Please,print your cafe's close time (hh:mm): ");
+                                hourAndMinute = (Console.ReadLine()).Split(':');
+                                closeTime = new TimeSpan(Convert.ToInt16(hourAndMinute[0]),
+                                    Convert.ToInt16(hourAndMinute[1]), 0);
+                                break;
+                            }
+                            catch (System.FormatException e)
+                            {
+                                Console.WriteLine("Incorrect input");
+                            }
+                        }
 
                         while (true)
                         {
@@ -597,7 +620,7 @@ namespace Cafes
                                                 Console.WriteLine("There is no cafe by that name");
                                                 Console.WriteLine("Hello dear user \nHere is our cafes by decreasing rates:");
                                                 cafes.Sort();
-                                                for (int j = cafes.Count - 1 ; j > -1; j--)
+                                                for (int j = cafes.Count - 1; j > -1; j--)
                                                 {
                                                     Console.WriteLine(cafes[j].Name);
                                                 }
@@ -779,7 +802,7 @@ namespace Cafes
                 else { return false; }
             }
             else { return false; }
-             
+
         }
     }
 
