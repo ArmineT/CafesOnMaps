@@ -12,8 +12,8 @@ namespace Cafes
     internal class Cafe : IComparable<Cafe>
     {
         private string password = "";
-        private string link = "Cafe don't have a link, sorry.";
-        private string email = "Cafe don't have an email, sorry.";
+        private string link = "Cafe doesn't have a link, sorry.";
+        private string email = "Cafe doesn't have an email, sorry.";
         private TimeSpan openTime;
         private TimeSpan closeTime;
         private List<int> grades = new List<int>();
@@ -55,7 +55,7 @@ namespace Cafes
         {
             Name = name;
             Address = adress;
-            phonenumber = PhoneNumber;
+            PhoneNumber = phonenumber;
             this.openTime = openTime;
             this.closeTime = closeTime;
             this.Password = password;
@@ -67,7 +67,7 @@ namespace Cafes
         {
             Name = name;
             Address = adress;
-            phonenumber = PhoneNumber;
+            PhoneNumber = phonenumber;
             this.openTime = openTime;
             this.closeTime = closeTime;
             this.link = link;

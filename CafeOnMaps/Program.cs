@@ -25,8 +25,8 @@ namespace Cafes
 
             string input = "";
             string cafeName, cafeAddress, cafePhoneNumber, cafePassword = "";
-            string cafeLink = "Cafe don't have a link, sorry.";
-            string cafeEmail = "Cafe don't have a eMail, sorry.";
+            string cafeLink = "Cafe doesn't have a link, sorry.";
+            string cafeEmail = "Cafe doesn't have a eMail, sorry.";
             string[] hourAndMinute = new string[2];
             string login;
             string password;
@@ -462,6 +462,8 @@ namespace Cafes
                         }
                     }
                 }
+
+                // End Working as Admin //
                
                 
                 //UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
@@ -469,24 +471,27 @@ namespace Cafes
 
                 while (imUser)
                 {
-                    Console.WriteLine("Hello dear user \nHere is our cafes by decreasing rates:");
+                    Console.WriteLine();
+                    Console.WriteLine("Hello dear user. \nHere are our cafes by decreasing rates...");
                     cafes.Sort();
+                    Console.WriteLine("================================================================");
                     for (int i = cafes.Count - 1; i >= 0; i--)
                     {
                         Console.WriteLine(cafes[i].Name);
                     }
-
+                    Console.WriteLine("================================================================");
+                    Console.WriteLine();
                     inputIsFalse = true;
                     Console.WriteLine("Now you can:");
                     while (inputIsFalse)
                     {
-                        Console.WriteLine("Search cafe by name                                         Type \"Search by name\"");
-                        Console.WriteLine("Search cafe by address                                      Type \"Search by address\"");
-                        Console.WriteLine("If you want to create an account                            Type \"Create\"");
-                        Console.WriteLine("If you want to grade(You must have an account)              Type \"Grade\"");
-                        Console.WriteLine("If you want to write a review(You must have an account)     Type \"Review\"");
-                        Console.WriteLine("If you finished your work as user                           Type \"Exit\"");
-
+                        Console.WriteLine("Search cafe by name                                         Type \"Search by name\".");
+                        Console.WriteLine("Search cafe by address                                      Type \"Search by address\".");
+                        Console.WriteLine("If you want to create an account                            Type \"Create\".");
+                        Console.WriteLine("If you want to grade(You must have an account)              Type \"Grade\".");
+                        Console.WriteLine("If you want to write a review(You must have an account)     Type \"Review\".");
+                        Console.WriteLine("If you finished your work as user                           Type \"Exit\".");
+                        Console.WriteLine("================================================================");
 
                         input = Console.ReadLine().ToLower();
                         switch (input)
@@ -504,7 +509,7 @@ namespace Cafes
                                     while (imSearchingCafe)
                                     {
                                         searchingCafeExist = false;
-                                        Console.WriteLine("Now,please,enter the name of cafe which you are interested in");
+                                        Console.Write("Now, please, enter the name of cafe which you are interested in: ");
                                         input = Console.ReadLine();
                                         for (int i = 0; i < cafes.Count; i++)
 
@@ -512,11 +517,13 @@ namespace Cafes
                                             if (input.Equals(cafes[i].Name))
                                             {
                                                 searchingCafeExist = true;
-                                                Console.WriteLine("There is all information about that cafe:");
+                                                Console.WriteLine("Here is all information about that cafe...");
+                                                Console.WriteLine("================================================================");
                                                 Console.WriteLine(cafes[i].ToString());
+                                                Console.WriteLine("================================================================");
                                                 while (true)
                                                 {
-                                                    Console.WriteLine("Have you finished? (Answer \"Yes\" or \"No\")");
+                                                    Console.WriteLine("Have you finished searching by name? (Answer \"Yes\" or \"No\")");
                                                     input = Console.ReadLine().ToLower();
                                                     if (input.Equals("yes"))
                                                     {
@@ -548,18 +555,21 @@ namespace Cafes
                             case "search by address":
                                 {
                                     inputIsFalse = false;
+                                    imSearchingCafe = true;
                                     while (imSearchingCafe)
                                     {
                                         searchingCafeExist = false;
-                                        Console.WriteLine("Now,please,enter the address of cafe which you are interested in");
+                                        Console.Write("Now, please, enter the address of cafe which you are interested in: ");
                                         input = Console.ReadLine();
                                         for (int i = 0; i < cafes.Count; i++)
                                         {
                                             if (input.Equals(cafes[i].Address))
                                             {
                                                 searchingCafeExist = true;
-                                                Console.WriteLine("There is all information about that cafe:");
+                                                Console.WriteLine("Here is all information about that cafe:");
+                                                Console.WriteLine("================================================================");
                                                 Console.WriteLine(cafes[i].ToString());
+                                                Console.WriteLine("================================================================");
                                                 while (true)
                                                 {
                                                     Console.WriteLine("Have you finished? (Answer \"Yes\" or \"No\")");
@@ -580,8 +590,8 @@ namespace Cafes
 
                                         if (searchingCafeExist == false)
                                         {
-                                            Console.WriteLine("Cafe isn't exist");
-                                            Console.WriteLine("Here is our cafes by decreasing rates,please choose one:");
+                                            Console.WriteLine("Cafe doesnt exist.");
+                                            Console.WriteLine("Here is our cafes by decreasing rates,please choose one...");
                                             for (int i = 0; i < cafes.Count; i++)
                                             {
                                                 Console.WriteLine(cafes[i].Address + "\n");
@@ -598,10 +608,10 @@ namespace Cafes
                                     bool loginFailed = true;
                                     while (loginFailed)
                                     {
-                                        Console.WriteLine("Please,input correct login and password");
-                                        Console.WriteLine("Login: ");
+                                        Console.WriteLine("Please,type correct login and password.");
+                                        Console.Write("Login: ");
                                         login = Console.ReadLine();
-                                        Console.WriteLine("Password: ");
+                                        Console.Write("Password: ");
                                         password = "";
 
                                         key = Console.ReadKey(true);
@@ -637,7 +647,7 @@ namespace Cafes
                                     while (imSearchingCafe)
                                     {
                                         searchingCafeExist = false;
-                                        Console.WriteLine("Now,please,enter the name of cafe which you want to rate");
+                                        Console.Write("Now, please, enter the name of cafe which you want to rate: ");
                                         input = Console.ReadLine();
                                         for (int i = 0; i < cafes.Count; i++)
                                         {
@@ -646,23 +656,30 @@ namespace Cafes
                                                 searchingCafeExist = true;
                                                 while (true)
                                                 {
-                                                    Console.WriteLine("Please,print grade (1 to 10)");
+                                                    Console.Write("Please,type grade (1 to 10): ");
                                                     input = Console.ReadLine();
                                                     int grade;
                                                     if (int.TryParse(input, out grade) && grade <= 10)
                                                     {
                                                         cafes[i].AddGrade(grade);
-                                                        Console.WriteLine("Grade added");
+                                                        Console.WriteLine("Grade added.");
                                                         break;
                                                     }
                                                     else
-                                                        Console.WriteLine("Follow instructions!");
+                                                    {
+                                                        Console.WriteLine();
+                                                        Console.WriteLine("Follow the instructions!");
+                                                        Console.WriteLine();
+                                                    }
                                                 }
                                             }
                                             else if (i == cafes.Count - 1 && searchingCafeExist == false)
                                             {
-                                                Console.WriteLine("There is no cafe by that name");
+                                                Console.WriteLine("There is no cafe by that name.");
+                                                Console.WriteLine();
+                                                Console.WriteLine("================================================================");
                                                 Console.WriteLine("Hello dear user \nHere is our cafes by decreasing rates:");
+                                                Console.WriteLine("================================================================");
                                                 cafes.Sort();
                                                 for (int j = cafes.Count - 1; j > -1; j--)
                                                 {
@@ -675,7 +692,7 @@ namespace Cafes
                                         {
                                             while (true)
                                             {
-                                                Console.WriteLine("Do you want rate again (Answer \"Yes\" or \"No\")?");
+                                                Console.Write("Do you want rate again? (Answer \"Yes\" or \"No\"): ");
                                                 input = Console.ReadLine().ToLower();
                                                 if (input.Equals("yes")) { break; }
                                                 else if (input.Equals("no"))
@@ -696,19 +713,17 @@ namespace Cafes
                                     bool loginFailed = true;
                                     while (loginFailed)
                                     {
-                                        Console.WriteLine("Please,input correct login and password");
-                                        Console.WriteLine("login: ");
+                                        Console.WriteLine("Please,input correct login and password.");
+                                        Console.Write("login: ");
                                         login = Console.ReadLine();
-                                        Console.WriteLine("password: ");
+                                        Console.Write("password: ");
                                         password = Console.ReadLine();
 
                                         foreach (Account account in accs)
                                             if (account.Login.Equals(login) && account.Password.Equals(password))
                                             {
                                                 loginFailed = false;
-                                                Console.WriteLine("You logged in succesfully.");
-
-
+                                                Console.WriteLine("You logged in succesfully.");                                          
                                                 break;
                                             }
 
@@ -718,21 +733,24 @@ namespace Cafes
                                     while (imSearchingCafe)
                                     {
                                         searchingCafeExist = false;
-                                        Console.WriteLine("Now,please,enter the name of cafe which you want to review");
+                                        Console.Write("Now, please, enter the name of cafe which you want to review: ");
                                         input = Console.ReadLine();
                                         for (int i = 0; i < cafes.Count; i++)
                                         {
                                             if (input.Equals(cafes[i].Name))
                                             {
                                                 searchingCafeExist = true;
-                                                Console.WriteLine("Print review");
+                                                Console.WriteLine("Print the review...");
                                                 input = Console.ReadLine();
                                                 cafes[i].Review.Add(input);
                                             }
                                             else if (i == cafes.Count - 1 && searchingCafeExist == false)
                                             {
-                                                Console.WriteLine("There is no cafe by that name");
+                                                Console.WriteLine("There is no cafe by that name.");
+                                                Console.WriteLine();
+                                                Console.WriteLine("================================================================");
                                                 Console.WriteLine("Hello dear user \nHere is our cafes by decreasing rates:");
+                                                Console.WriteLine("================================================================");
                                                 for (int j = 0; j < cafes.Count; j++)
                                                 {
                                                     Console.WriteLine(cafes[j].Name);
@@ -744,7 +762,7 @@ namespace Cafes
                                         {
                                             while (true)
                                             {
-                                                Console.WriteLine("Do you want review again (Answer \"Yes\" or \"No\")?");
+                                                Console.Write("Do you want to review again? (Answer \"Yes\" or \"No\") ");
                                                 input = Console.ReadLine().ToLower();
                                                 if (input.Equals("yes")) { break; }
                                                 else if (input.Equals("no"))
@@ -766,16 +784,24 @@ namespace Cafes
                                     Console.WriteLine("So please pick a login.");
                                     while (true)
                                     {
+                                        Console.Write("Login: ");
                                         login = Console.ReadLine();
-                                        if (login.Length >= 6) { break; }
+                                        if (login.Length >= 6)
+                                        {
+                                            break;
+                                        }
                                         else
+                                        {
+                                            Console.WriteLine();
                                             Console.WriteLine("Login must be at least 6 characters!");
+                                            Console.WriteLine();
+                                        }
                                     }
                                     password = rnd.Next(10000000, 1000000000) + "";
 
-                                    Console.WriteLine("Here is your password: {0}. Don't loose it", password);
+                                    Console.WriteLine("Here is your password: {0}. Don't loose it.", password);
                                     Console.WriteLine("Your account has been created.");
-
+                                    Console.WriteLine("================================================================");
 
                                     accs.Add(new Account(login, password));
 
@@ -785,7 +811,9 @@ namespace Cafes
 
                             default:
                                 {
+                                    Console.WriteLine();
                                     Console.WriteLine("Please, follow the instructions.");
+                                    Console.WriteLine();
                                     break;
                                 }
                         }
