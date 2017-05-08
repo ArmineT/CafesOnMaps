@@ -45,9 +45,9 @@ namespace Cafes
             // Adding some default cafes    //
 
             Cafe myFirstCafe = new Cafe("Centre", "Varshavyan 8", "010 45 58 46", new TimeSpan(08, 30, 00),
-                                                         new TimeSpan(22, 30, 00), "**********");
+                                                         new TimeSpan(22, 30, 00), "CentrePassword");
             Cafe mySecondCafe = new Cafe("AHA", "Shiraz 74", "010 22 22 21", new TimeSpan(07, 30, 00),
-                                                        new TimeSpan(23, 30, 00), "www.AHA.am", "AHA@mail.ru", "********");
+                                                        new TimeSpan(23, 30, 00), "www.AHA.am", "AHA@mail.ru", "AHAPassword");
 
             accs.Add(new Account("LoginA", "12345679888"));
 
@@ -203,6 +203,9 @@ namespace Cafes
                             {
                                 key = Console.ReadKey(true);
 
+                                if (key.Key == ConsoleKey.Enter)
+                                    break;
+
                                 if (key.Key != ConsoleKey.Backspace)
                                 {
                                     cafePassword += key.KeyChar;
@@ -272,7 +275,7 @@ namespace Cafes
                         Console.WriteLine("Please,type the name and password of cafe, which you want to change.");
                         Console.Write("Type name: ");
                         cafeName = Console.ReadLine();
-                        Console.Write("Type password:  ");
+                        Console.Write("Type password: ");
                         cafePassword = "";
 
                         key = Console.ReadKey(true);
@@ -282,6 +285,9 @@ namespace Cafes
                         while (key.Key != ConsoleKey.Enter)
                         {
                             key = Console.ReadKey(true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                                break;
 
                             if (key.Key != ConsoleKey.Backspace)
                             {
@@ -622,6 +628,9 @@ namespace Cafes
                                         {
                                             key = Console.ReadKey(true);
 
+                                            if (key.Key == ConsoleKey.Enter)
+                                                break;
+
                                             if (key.Key != ConsoleKey.Backspace)
                                             {
                                                 password += key.KeyChar;
@@ -717,7 +726,29 @@ namespace Cafes
                                         Console.Write("login: ");
                                         login = Console.ReadLine();
                                         Console.Write("password: ");
-                                        password = Console.ReadLine();
+                                        password = "";
+
+                                        key = Console.ReadKey(true);
+                                        password += key.KeyChar;
+                                        Console.Write("#");
+
+                                        while (key.Key != ConsoleKey.Enter)
+                                        {
+                                            key = Console.ReadKey(true);
+
+                                            if (key.Key == ConsoleKey.Enter)
+                                                break;
+
+                                            if (key.Key != ConsoleKey.Backspace)
+                                            {
+                                                password += key.KeyChar;
+                                                Console.Write("#");
+                                            }
+                                            else
+                                            {
+                                                Console.Write("\b");
+                                            }
+                                        }
 
                                         foreach (Account account in accs)
                                             if (account.Login.Equals(login) && account.Password.Equals(password))
