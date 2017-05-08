@@ -14,10 +14,8 @@ namespace Cafes
 
             //  Text File   //
             StreamWriter output = new StreamWriter
-                (@"C:\Users\Hayk\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\output.txt");
+                (@"output.txt");
             //  text File End   //
-
-
 
             List<Cafe> cafes = new List<Cafe>();
             TimeSpan openTime, closeTime;
@@ -32,9 +30,7 @@ namespace Cafes
             string[] hourAndMinute = new string[2];
             string login;
             string password;
-            bool eMailAndLinkExist = false;
-            string pass = "";
-
+            
             bool imAdmin = false;
             bool imUser = false;
             bool addACafe = false;
@@ -43,11 +39,10 @@ namespace Cafes
             bool imSearchingCafe = true;
             bool searchingCafeExist = false;
             bool inputIsFalse = true;
-
-            bool choosingAccount = true;
-
+            bool eMailAndLinkExist = false;
 
 
+            // Adding some default cafes    //
 
             Cafe myFirstCafe = new Cafe("Centre", "Varshavyan 8", "010 45 58 46", new TimeSpan(08, 30, 00),
                                                          new TimeSpan(22, 30, 00), "**********");
@@ -56,15 +51,17 @@ namespace Cafes
 
             accs.Add(new Account("LoginA", "12345679888"));
 
-
             cafes.Add(myFirstCafe);
             cafes.Add(mySecondCafe);
+
+            // End Adding some dafault cafes    //
 
 
 
             while (true)
             {
-                Console.WriteLine("Print \"User\" if you are user \nPrint \"Admin\" if you are administrator\nPrint \"Exit\" if you want to exit all.");
+                Console.WriteLine("Print \"User\" if you are user. \nPrint \"Admin\" if you are administrator.\nPrint \"Exit\" if you want to exit all.");
+                Console.WriteLine("====================================");
                 input = Console.ReadLine();
                 if (input.ToLower().Equals("admin"))
                     imAdmin = true;
@@ -82,17 +79,22 @@ namespace Cafes
                     break;
                 }
                 else
+                {
+                    Console.WriteLine();
                     Console.WriteLine("Please,follow instructions!");
+                    Console.WriteLine();
+                }
 
-
-
+                //  Admin Working   //
 
                 while (imAdmin)
                 {
                     while (true)
                     {
-                        Console.WriteLine("If you want to add a cafe print \"Add a cafe\" ");
-                        Console.WriteLine("If you want to make changes to existing cafe print \"Make changes\" ");
+                        Console.WriteLine();
+                        Console.WriteLine("If you want to add a cafe print \"Add a cafe\".");
+                        Console.WriteLine("If you want to make changes to existing cafe print \"Make changes\". ");
+                        Console.WriteLine("=================================================================");
                         input = Console.ReadLine();
 
                         if (input.ToLower().Equals("add a cafe"))
@@ -106,16 +108,19 @@ namespace Cafes
                             break;
                         }
                         else
-                            Console.WriteLine("Please,follow instructions!");
+                            Console.WriteLine("\nPlease,follow instructions!");
                     }
+
+                    // Adding a cafe    //
 
                     while (addACafe)
                     {
-                        Console.Write("Please,print your cafe's name: ");
+                        Console.WriteLine("=================================================================");
+                        Console.Write("Please,type your cafe's name: ");
                         cafeName = Console.ReadLine();
-                        Console.Write("Please,print your cafe's address: ");
+                        Console.Write("Please,type your cafe's address: ");
                         cafeAddress = Console.ReadLine();
-                        Console.Write("Please,print your cafe's phone number: ");
+                        Console.Write("Please,type your cafe's phone number: ");
                         cafePhoneNumber = Console.ReadLine();
 
                         while (true)
@@ -130,7 +135,7 @@ namespace Cafes
                             }
                             catch (System.FormatException)
                             {
-                                Console.WriteLine("Incorrect input");
+                                Console.WriteLine("Incorrect input!");
                             }
                         }
 
@@ -146,13 +151,13 @@ namespace Cafes
                             }
                             catch (System.FormatException e)
                             {
-                                Console.WriteLine("Incorrect input");
+                                Console.WriteLine("Incorrect input!");
                             }
                         }
 
                         while (true)
                         {
-                            Console.WriteLine("Do you have link and mail ? (Yes or No) ");
+                            Console.Write("Do you have link and Email ? (Yes or No): ");
                             input = Console.ReadLine().ToLower();
                             if (input.Equals("yes"))
                             {
@@ -174,14 +179,17 @@ namespace Cafes
                                 }
                                 break;
                             }
-                            else if (input.Equals("no")) { break; }
+                            else if (input.Equals("no"))
+                            {
+                                break;
+                            }
                             else
                             {
-                                Console.WriteLine("Please,print Yes or No");
+                                Console.WriteLine("Please,print Yes or No.");
                             }
                         }
 
-                        Console.Write("You must set password for your cafe:");
+                        Console.Write("You must set password for your cafe.");
                         while (true)
                         {
                             cafePassword = "";
@@ -210,7 +218,7 @@ namespace Cafes
                             {
                                 break;
                             }
-                            Console.WriteLine("Invalid password");
+                            Console.WriteLine("Invalid password!");
 
                         }
 
@@ -235,11 +243,12 @@ namespace Cafes
 
                         }
 
-
+                        Console.WriteLine();
+                        Console.WriteLine("=============================================================");
 
                         while (true)
                         {
-                            Console.WriteLine("Do you want add another cafe \nAnswer \"Yes\" or \"No\" :");
+                            Console.Write("Do you want to add another cafe? \nAnswer \"Yes\" or \"No\": ");
                             input = Console.ReadLine();
                             if (input.ToLower().Equals("yes"))
                                 break;
@@ -253,14 +262,17 @@ namespace Cafes
 
                     }
 
+                    // End Adding cafe  //
 
-                    ////// As admin make changes
+                    // Making chanhges as Admin //
+
                     while (makeChanges)
                     {
-                        Console.WriteLine("Please,type the name  and password of cafe,which you want to change:");
-                        Console.WriteLine("Type name: ");
+                        Console.WriteLine();
+                        Console.WriteLine("Please,type the name and password of cafe, which you want to change.");
+                        Console.Write("Type name: ");
                         cafeName = Console.ReadLine();
-                        Console.WriteLine("Type password:  ");
+                        Console.Write("Type password:  ");
                         cafePassword = "";
 
                         key = Console.ReadKey(true);
@@ -281,6 +293,7 @@ namespace Cafes
                                 Console.Write("\b");
                             }
                         }
+
                         Console.WriteLine();
                         cafeExist = false;
                         for (int i = 0; i < cafes.Count; i++)
@@ -290,47 +303,52 @@ namespace Cafes
                                 cafeExist = true;
                                 bool doingChanges = true;
                                 cafeName = input;
-                                Console.WriteLine("You logged in successfully");
-                                Console.WriteLine("Now dear Admin you can:");
+                                Console.WriteLine("==============================================================================");
+                                Console.WriteLine("You logged in successfully.");
+                                Console.WriteLine("Now dear Admin you can....");
+                                Console.WriteLine();
 
 
                                 while (doingChanges)
                                 {
-                                    Console.WriteLine("Change cafe name                   Type \"Change Name\" ");
-                                    Console.WriteLine("Change cafe address                Type \"Change Addres\" ");
-                                    Console.WriteLine("Change cafe phone number           Type \"Change Phone Number\" ");
-                                    Console.WriteLine("Change cafe Email                  Type \"Change Email\" ");
-                                    Console.WriteLine("Change cafe link                   Type \"Change Link\" ");
-                                    Console.WriteLine("If end your work with this caffe   Type \"Finish work with this cafe\" ");
-                                    Console.WriteLine("If end your work with all changes  Type \"Finish work with changes\" ");
-
-
+                                    Console.WriteLine("Change cafe name                   Type \"Change Name\". ");
+                                    Console.WriteLine("Change cafe address                Type \"Change Addres\". ");
+                                    Console.WriteLine("Change cafe phone number           Type \"Change Phone Number\". ");
+                                    Console.WriteLine("Change cafe Email                  Type \"Change Email\". ");
+                                    Console.WriteLine("Change cafe link                   Type \"Change Link\". ");
+                                    Console.WriteLine("If end your work with this caffe   Type \"Finish work with this cafe\". ");
+                                    Console.WriteLine("If end your work with all changes  Type \"Finish work with changes\". ");
+                                    Console.WriteLine("==========================================================================");
+                
                                     input = Console.ReadLine().ToLower();
 
                                     switch (input)
                                     {
                                         case "change name":
                                             {
-                                                Console.Write("Type new name:");
+                                                Console.Write("Type a new name: ");
                                                 cafes[i].ChangeCafeName(cafePassword, Console.ReadLine());
-                                                Console.WriteLine("Name was changed");
+                                                Console.WriteLine("The name was changed.");
+                                                Console.WriteLine();
                                                 break;
                                             }
 
                                         case "change addres":
                                             {
-                                                Console.Write("Type new address:");
+                                                Console.Write("Type a new address: ");
                                                 cafes[i].ChangeCafeAddress(cafePassword, Console.ReadLine());
-                                                Console.WriteLine("Address was changed");
+                                                Console.WriteLine("The address was changed.");
+                                                Console.WriteLine();
 
                                                 break;
                                             }
 
                                         case "change phone number":
                                             {
-                                                Console.Write("Type new phone number:");
+                                                Console.Write("Type a new phone number: ");
                                                 cafes[i].ChangeCafePhoneNumber(cafePassword, Console.ReadLine());
-                                                Console.WriteLine("Phone number was changed");
+                                                Console.WriteLine("The phone number was changed.");
+                                                Console.WriteLine();
 
                                                 break;
                                             }
@@ -339,13 +357,19 @@ namespace Cafes
                                             {
                                                 while (true)
                                                 {
-                                                    Console.Write("Type new Email:");
+                                                    Console.Write("Type a new Email: ");
                                                     cafeEmail = Console.ReadLine();
                                                     if (CheckEMailAdress(cafeEmail)) { break; }
-                                                    else { Console.WriteLine("Invalid eMail address"); }
+                                                    else
+                                                    {
+                                                        Console.WriteLine();
+                                                        Console.WriteLine("Invalid eMail address!!");
+                                                        Console.WriteLine();
+                                                    }
                                                 }
                                                 cafes[i].ChangeCafeEmail(cafePassword, cafeEmail);
-                                                Console.WriteLine("Email was changed");
+                                                Console.WriteLine("The Email was changed.");
+                                                Console.WriteLine();
 
                                                 break;
                                             }
@@ -354,74 +378,94 @@ namespace Cafes
                                             {
                                                 while (true)
                                                 {
-                                                    Console.WriteLine("Type new Link:");
+                                                    Console.Write("Type a new Link: ");
                                                     cafeLink = Console.ReadLine();
                                                     if (CheckLink(cafeLink)) { break; }
-                                                    else { Console.WriteLine("Invalid link (It must be in this from \"http://somewhere.something\")"); }
+                                                    else
+                                                    {
+                                                        Console.WriteLine();
+                                                        Console.WriteLine("Invalid link (It must be in this from \"http://somewhere.something\")");
+                                                        Console.WriteLine();
+                                                    }
 
                                                 }
                                                 cafes[i].ChangeCafeLink(cafePassword, cafeLink);
-                                                Console.WriteLine("Link was changed");
+                                                Console.WriteLine("The link was changed.");
+                                                Console.WriteLine();
 
                                                 break;
                                             }
 
                                         case "finish work with this cafe":
                                             {
-                                                Console.WriteLine("Thank you for changes");
+                                                Console.WriteLine("Thank you for making changes.");
+                                                Console.WriteLine();
                                                 doingChanges = false;
                                                 break;
                                             }
                                         case ("finish work with changes"):
                                             {
-                                                Console.WriteLine("Thank you for changes");
+                                                Console.WriteLine("Thank you for making changes.");
+                                                Console.WriteLine();
                                                 doingChanges = false;
                                                 makeChanges = false;
                                                 break;
                                             }
                                         default:
                                             {
+                                                Console.WriteLine();
                                                 Console.WriteLine("Please, follow the instructions.");
+                                                Console.WriteLine();
                                                 break;
                                             }
                                     }
-
                                 }
                             }
 
                             if (cafeExist == false && i == cafes.Count() - 1)
                             {
+                                Console.WriteLine("================================================");
                                 Console.WriteLine("Invalid name or password");
                                 while (true)
                                 {
-                                    Console.WriteLine("Do you want try again and countinue changes (type \"Yes\" or \"No\")");
+                                    Console.WriteLine("Do you want to try again and countinue changes (type \"Yes\" or \"No\")");
                                     input = Console.ReadLine().ToLower();
                                     if (input.Equals("yes")) { break; }
                                     else if (input.Equals("no")) { makeChanges = false; break; }
+                                    Console.WriteLine();
                                 }
                             }
                         }
-
-
                     }
+
+                    // End Making changes As Admin  //
 
                     while (true)
                     {
-                        Console.WriteLine("Have you finished your work as Administrator? (Yes or No)");
+                        Console.WriteLine();
+                        Console.Write("Have you finished your work as Administrator? (Yes or No): ");
                         input = Console.ReadLine();
                         if (input.ToLower().Equals("yes"))
                         {
                             imAdmin = false;
+                            Console.WriteLine("=========================================================");
+                            Console.WriteLine("=========================================================");
+                            Console.WriteLine();
                             break;
                         }
                         else if (input.ToLower().Equals("no")) { break; }
                         else
+                        {
+                            Console.WriteLine();
                             Console.WriteLine("Please,follow instructions! \nAnswer \"Yes\" or \"No\" ");
+                            Console.WriteLine();
+                        }
                     }
                 }
-                //UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSEEEEEEEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRR
-
-
+               
+                
+                //UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+                //EEEEEEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRR
 
                 while (imUser)
                 {
