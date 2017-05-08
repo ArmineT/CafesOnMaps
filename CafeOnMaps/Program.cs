@@ -30,7 +30,7 @@ namespace Cafes
             string[] hourAndMinute = new string[2];
             string login;
             string password;
-            
+
             bool imAdmin = false;
             bool imUser = false;
             bool addACafe = false;
@@ -40,6 +40,7 @@ namespace Cafes
             bool searchingCafeExist = false;
             bool inputIsFalse = true;
             bool eMailAndLinkExist = false;
+            bool invaildLogin = true;
 
 
             // Adding some default cafes    //
@@ -325,7 +326,7 @@ namespace Cafes
                                     Console.WriteLine("If end your work with this caffe   Type \"Finish work with this cafe\". ");
                                     Console.WriteLine("If end your work with all changes  Type \"Finish work with changes\". ");
                                     Console.WriteLine("==========================================================================");
-                
+
                                     input = Console.ReadLine().ToLower();
 
                                     switch (input)
@@ -470,8 +471,8 @@ namespace Cafes
                 }
 
                 // End Working as Admin //
-               
-                
+
+
                 //UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
                 //EEEEEEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRR
 
@@ -497,6 +498,7 @@ namespace Cafes
                         Console.WriteLine("If you want to grade(You must have an account)              Type \"Grade\".");
                         Console.WriteLine("If you want to write a review(You must have an account)     Type \"Review\".");
                         Console.WriteLine("If you finished your work as user                           Type \"Exit\".");
+                        Console.WriteLine("If you don't know name,you can search by part               Type \"Search by name approximately\".");
                         Console.WriteLine("================================================================");
 
                         input = Console.ReadLine().ToLower();
@@ -551,7 +553,7 @@ namespace Cafes
                                             Console.WriteLine("Here is our cafes by decreasing rates,please choose one:");
                                             for (int i = 0; i < cafes.Count; i++)
                                             {
-                                                Console.WriteLine(cafes[i].Name + "\n");
+                                                Console.WriteLine(cafes[i].Name);
                                             }
                                         }
                                     }
@@ -600,7 +602,7 @@ namespace Cafes
                                             Console.WriteLine("Here is our cafes by decreasing rates,please choose one...");
                                             for (int i = 0; i < cafes.Count; i++)
                                             {
-                                                Console.WriteLine(cafes[i].Address + "\n");
+                                                Console.WriteLine(cafes[i].Address);
                                             }
                                         }
                                     }
@@ -641,15 +643,22 @@ namespace Cafes
                                                 Console.Write("\b");
                                             }
                                         }
+                                        Console.WriteLine();
 
                                         foreach (Account account in accs)
+                                        {
                                             if (account.Login.Equals(login) && account.Password.Equals(password))
                                             {
+                                                invaildLogin = false;
                                                 loginFailed = false;
                                                 Console.WriteLine("You logged in succesfully.");
                                                 break;
                                             }
-                                        Console.WriteLine("Invalid login or password!");
+
+                                        }
+
+                                        if (invaildLogin)
+                                            Console.WriteLine("Invalid login or password!");
 
                                     }
                                     imSearchingCafe = true;
@@ -687,7 +696,7 @@ namespace Cafes
                                                 Console.WriteLine("There is no cafe by that name.");
                                                 Console.WriteLine();
                                                 Console.WriteLine("================================================================");
-                                                Console.WriteLine("Hello dear user \nHere is our cafes by decreasing rates:");
+                                                Console.WriteLine("Here is our cafes by decreasing rates:");
                                                 Console.WriteLine("================================================================");
                                                 cafes.Sort();
                                                 for (int j = cafes.Count - 1; j > -1; j--)
@@ -749,17 +758,23 @@ namespace Cafes
                                                 Console.Write("\b");
                                             }
                                         }
+                                        Console.WriteLine();
 
                                         foreach (Account account in accs)
+                                        {
                                             if (account.Login.Equals(login) && account.Password.Equals(password))
                                             {
+                                                invaildLogin = false;
                                                 loginFailed = false;
-                                                Console.WriteLine("You logged in succesfully.");                                          
+                                                Console.WriteLine("You logged in succesfully.");
                                                 break;
                                             }
 
-                                    }
+                                        }
 
+                                        if (invaildLogin)
+                                            Console.WriteLine("Invalid login or password!");
+                                    }
                                     imSearchingCafe = true;
                                     while (imSearchingCafe)
                                     {
@@ -780,7 +795,7 @@ namespace Cafes
                                                 Console.WriteLine("There is no cafe by that name.");
                                                 Console.WriteLine();
                                                 Console.WriteLine("================================================================");
-                                                Console.WriteLine("Hello dear user \nHere is our cafes by decreasing rates:");
+                                                Console.WriteLine("Here is our cafes by decreasing rates:");
                                                 Console.WriteLine("================================================================");
                                                 for (int j = 0; j < cafes.Count; j++)
                                                 {
@@ -847,6 +862,58 @@ namespace Cafes
                                     Console.WriteLine();
                                     break;
                                 }
+                            ////////////
+                            case "search by name approximately":
+                                {
+                                    imSearchingCafe = true;
+                                    string outputt = "";
+                                    while (imSearchingCafe)
+                                    {
+                                        Console.WriteLine("Now, please, enter the approximately name of cafe which you are interested in:");
+                                        input = Console.ReadLine();
+                                        for (int i = 0; i < cafes.Count; i++)
+                                        {
+                                            if (IsApproximatly(input, cafes[i].Name))
+                                            {
+                                                outputt += cafes[i].Name + "\n";
+                                            }
+                                        }
+
+                                        if (outputt != "")
+                                        {
+                                            Console.WriteLine(outputt);
+                                            Console.WriteLine("Here is our cafes:");
+                                            Console.WriteLine(outputt 
+                                                + "Now you can choose search by name comand and find the ccafe whitch one you want");
+                                           
+                                        }
+
+                                        else
+                                        {
+                                            Console.WriteLine("There is no cafe by that name ");
+                                            inputIsFalse = true;
+                                            while (inputIsFalse)
+                                            {
+                                                Console.WriteLine("Do you want to try again? \tType \"Yes\" or \"No\"");
+                                                input = Console.ReadLine().ToLower();
+                                                switch (input)
+                                                {
+                                                    case "yes":   { inputIsFalse = false; break; }
+                                                    case "no":
+                                                        {
+                                                            imSearchingCafe = false;
+                                                            inputIsFalse = false;
+                                                            break;
+                                                        }
+                                                    default: Console.WriteLine("Follow instructions!"); break;
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                    break;
+                                }
+                                /////////////////
                         }
 
                     }
@@ -906,6 +973,11 @@ namespace Cafes
             }
             else { return false; }
 
+        }
+        public static bool IsApproximatly(string name, string approximatlyName)
+        {
+            if (name.Replace(approximatlyName, "").Equals(name)) { return false; }
+            else { return true; }
         }
     }
 
