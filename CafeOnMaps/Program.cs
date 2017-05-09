@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Device.Location;
 using System.IO;
 
 namespace Cafes
@@ -30,6 +31,10 @@ namespace Cafes
             string[] hourAndMinute = new string[2];
             string login;
             string password;
+            string outgo = "";
+            double latitude = 0;
+            double longitude = 0;
+            double distance = 0;
 
             bool imAdmin = false;
             bool imUser = false;
@@ -41,13 +46,11 @@ namespace Cafes
             bool inputIsFalse = true;
             bool eMailAndLinkExist = false;
             bool invaildLogin = true;
-
-
             // Adding some default cafes    //
 
-            Cafe myFirstCafe = new Cafe("Centre", "Varshavyan 8", "010 45 58 46", new TimeSpan(08, 30, 00),
+            Cafe myFirstCafe = new Cafe("Centre", "Varshavyan 8", new GeoCoordinate(0, 0), "010 45 58 46", new TimeSpan(08, 30, 00),
                                                          new TimeSpan(22, 30, 00), "CentrePassword");
-            Cafe mySecondCafe = new Cafe("AHA", "Shiraz 74", "010 22 22 21", new TimeSpan(07, 30, 00),
+            Cafe mySecondCafe = new Cafe("AHA", "Shiraz 74",new GeoCoordinate(1,28), "010 22 22 21", new TimeSpan(07, 30, 00),
                                                         new TimeSpan(23, 30, 00), "www.AHA.am", "AHA@mail.ru", "AHAPassword");
 
             accs.Add(new Account("LoginA", "12345679888"));
@@ -121,6 +124,27 @@ namespace Cafes
                         cafeName = Console.ReadLine();
                         Console.Write("Please,type your cafe's address: ");
                         cafeAddress = Console.ReadLine();
+                        while (true)
+                        {
+                            Console.Write("Please,type latitude (Double integer): ");
+                            input = Console.ReadLine();
+                            if (double.TryParse(input, out latitude))
+                                break;
+                            else
+                                Console.WriteLine("Please,follow the instructions.");
+                        }
+
+                        while (true)
+                        {
+                            Console.Write("Please,type longitude (Double integer): ");
+                            input = Console.ReadLine();
+                            if (double.TryParse(input, out longitude))
+                                break;
+                            else
+                                Console.WriteLine("Please,follow the instructions.");
+                        }
+
+
                         Console.Write("Please,type your cafe's phone number: ");
                         cafePhoneNumber = Console.ReadLine();
 
@@ -230,7 +254,7 @@ namespace Cafes
 
                         if (eMailAndLinkExist)
                         {
-                            cafes.Add(new Cafe(cafeName, cafeAddress, cafePhoneNumber, openTime, closeTime,
+                            cafes.Add(new Cafe(cafeName, cafeAddress,new GeoCoordinate (latitude , longitude),cafePhoneNumber, openTime, closeTime,
                                 cafeLink, cafeEmail, cafePassword));
                             Console.WriteLine("Cafe added");
 
@@ -239,7 +263,7 @@ namespace Cafes
                         }
                         else
                         {
-                            cafes.Add(new Cafe(cafeName, cafeAddress, cafePhoneNumber, openTime, closeTime,
+                            cafes.Add(new Cafe(cafeName, cafeAddress, new GeoCoordinate(latitude, longitude), cafePhoneNumber, openTime, closeTime,
                                  cafePassword));
                             Console.WriteLine("Cafe added");
 
@@ -428,7 +452,9 @@ namespace Cafes
                                     }
                                 }
                             }
+                            //
 
+                            //
                             if (cafeExist == false && i == cafes.Count() - 1)
                             {
                                 Console.WriteLine("================================================");
@@ -492,18 +518,71 @@ namespace Cafes
                     Console.WriteLine("Now you can:");
                     while (inputIsFalse)
                     {
+                        Console.WriteLine("================================================================");
                         Console.WriteLine("Search cafe by name                                         Type \"Search by name\".");
                         Console.WriteLine("Search cafe by address                                      Type \"Search by address\".");
+                        Console.WriteLine("Search cafe by part of a name                               Type \"Search by name approximate\".");
+                        Console.WriteLine("Find all cafes by given distance                            Type \"Nearest Cafes\"");
                         Console.WriteLine("If you want to create an account                            Type \"Create\".");
                         Console.WriteLine("If you want to grade(You must have an account)              Type \"Grade\".");
                         Console.WriteLine("If you want to write a review(You must have an account)     Type \"Review\".");
                         Console.WriteLine("If you finished your work as user                           Type \"Exit\".");
-                        Console.WriteLine("If you don't know name,you can search by part               Type \"Search by name approximately\".");
                         Console.WriteLine("================================================================");
 
                         input = Console.ReadLine().ToLower();
                         switch (input)
                         {
+                            case "nearest cafes":
+                                {
+                                    outgo = "";
+                                    Console.WriteLine("Plese, type your geolocation and the distance from you where you want to find cafes...");
+                                    while (true)
+                                    {
+                                        Console.Write("Latitude: ");
+                                        input = Console.ReadLine();
+                                        if (double.TryParse(input, out latitude))
+                                            break;
+                                        else
+                                        {
+                                            Console.WriteLine();
+                                            Console.WriteLine("Please, follow instructions.\n");
+                                        }
+                                    }
+                                    while (true)
+                                    {
+                                        Console.Write("Longitude: ");
+                                        input = Console.ReadLine();
+                                        if (double.TryParse(input, out longitude))
+                                            break;
+                                        else
+                                            Console.WriteLine("\nPlease, follow instructions.\n");
+                                    }
+                                    while (true)
+                                    {
+
+                                        Console.Write("Distance by meters: ");
+                                        input = Console.ReadLine();
+                                        if (double.TryParse(input, out distance))
+                                            break;
+                                        else
+                                            Console.WriteLine("\nPlease, follow instructions.\n");
+                                    }
+
+                                    foreach(Cafe caf in cafes)
+                                    {
+                                        if(caf.Geo.GetDistanceTo(new GeoCoordinate(latitude, longitude)) <= distance)
+                                        {
+                                            outgo += caf.Name + "\n";
+                                        }
+                                    }
+                                    if(outgo.Equals(""))
+                                    {
+                                        Console.WriteLine("There is no cafe from you by that distance.");
+                                    }
+                                    else
+                                        Console.WriteLine(outgo);
+                                    break;
+                                }
                             case "exit":
                                 {
                                     imUser = false;
@@ -825,7 +904,7 @@ namespace Cafes
 
 
 
-                            case ("create"):
+                            case "create":
                                 {
                                     Console.WriteLine("So please pick a login.");
                                     while (true)
@@ -855,42 +934,48 @@ namespace Cafes
 
                                 }
 
-                            default:
-                                {
-                                    Console.WriteLine();
-                                    Console.WriteLine("Please, follow the instructions.");
-                                    Console.WriteLine();
-                                    break;
-                                }
-                            ////////////
-                            case "search by name approximately":
+                            case "search by name approximate":
                                 {
                                     imSearchingCafe = true;
-                                    string outputt = "";
+                                    string foundCafes = "";
                                     while (imSearchingCafe)
                                     {
-                                        Console.WriteLine("Now, please, enter the approximately name of cafe which you are interested in:");
+                                        Console.WriteLine("============================================================================");
+                                        Console.Write("Now, please, enter the approximate name of cafe which you are interested in: ");
                                         input = Console.ReadLine();
                                         for (int i = 0; i < cafes.Count; i++)
                                         {
-                                            if (IsApproximatly(input, cafes[i].Name))
+                                            if (IsApproximatlyTheSame(cafes[i].Name, input))
                                             {
-                                                outputt += cafes[i].Name + "\n";
+                                                foundCafes += cafes[i].Name + "\n";
                                             }
                                         }
 
-                                        if (outputt != "")
+                                        if (!foundCafes.Equals(""))
                                         {
-                                            Console.WriteLine(outputt);
-                                            Console.WriteLine("Here is our cafes:");
-                                            Console.WriteLine(outputt 
-                                                + "Now you can choose search by name comand and find the ccafe whitch one you want");
-                                           
-                                        }
+                                            Console.WriteLine("\nHere are our cafes...");
+                                            Console.WriteLine(foundCafes
+                                                + "Now you can choose \"Search by name\" comand and get info about cafe you want.\n");
+                                            Console.WriteLine("Do you want to search again?");
+                                            while (true)
+                                            {
+                                                Console.WriteLine("Answer \"Yes\" or \"No\"");
+                                                input = Console.ReadLine().ToLower();
+                                                if (input.Equals("no"))
+                                                {
+                                                    imSearchingCafe = false;
+                                                    break;
+                                                }
+                                                else if (input.Equals("yes"))
+                                                    break;
 
+                                                else
+                                                    Console.WriteLine("\nPlease, follow the instructions!\n");
+                                            }
+                                        }
                                         else
                                         {
-                                            Console.WriteLine("There is no cafe by that name ");
+                                            Console.WriteLine("There is no cafe by that name.");
                                             inputIsFalse = true;
                                             while (inputIsFalse)
                                             {
@@ -898,14 +983,24 @@ namespace Cafes
                                                 input = Console.ReadLine().ToLower();
                                                 switch (input)
                                                 {
-                                                    case "yes":   { inputIsFalse = false; break; }
+                                                    case "yes":
+                                                        {
+                                                            inputIsFalse = false;
+                                                            break;
+                                                        }
                                                     case "no":
                                                         {
                                                             imSearchingCafe = false;
                                                             inputIsFalse = false;
                                                             break;
                                                         }
-                                                    default: Console.WriteLine("Follow instructions!"); break;
+                                                    default:
+                                                        {
+                                                            Console.WriteLine();
+                                                            Console.WriteLine("Follow instructions!");
+                                                            Console.WriteLine();
+                                                            break;
+                                                        }
                                                 }
                                             }
                                         }
@@ -913,7 +1008,13 @@ namespace Cafes
                                     }
                                     break;
                                 }
-                                /////////////////
+                            default:
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("Please, follow the instructions.");
+                                    Console.WriteLine();
+                                    break;
+                                }
                         }
 
                     }
@@ -921,6 +1022,8 @@ namespace Cafes
 
             }
         }
+
+        /////////////   Methods //////////////////////////////////////////////
         public static bool CheckEMailAdress(string Adress)
         {
             if (Adress.IndexOf('@') == -1) { return false; } // ther is no @
@@ -974,10 +1077,15 @@ namespace Cafes
             else { return false; }
 
         }
-        public static bool IsApproximatly(string name, string approximatlyName)
+
+        public static bool IsApproximatlyTheSame(string name, string approximatlyName)
         {
-            if (name.Replace(approximatlyName, "").Equals(name)) { return false; }
-            else { return true; }
+            approximatlyName.ToLower();
+            name.ToLower();
+            if (name.Replace(approximatlyName, "").Equals(name))
+                return false;
+            else
+                return true;
         }
     }
 

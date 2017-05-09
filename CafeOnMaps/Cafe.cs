@@ -18,6 +18,8 @@ namespace Cafes
         private TimeSpan closeTime;
         private List<int> grades = new List<int>();
         public List<string> Review = new List<string>();
+        public GeoCoordinate Geo { get; set; }
+
 
 
 
@@ -51,7 +53,7 @@ namespace Cafes
 
 
 
-        public Cafe(string name, string adress, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string password)
+        public Cafe(string name, string adress,GeoCoordinate place, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string password)
         {
             Name = name;
             Address = adress;
@@ -59,10 +61,11 @@ namespace Cafes
             this.openTime = openTime;
             this.closeTime = closeTime;
             this.Password = password;
+            this.Geo = place;
         }
 
 
-        public Cafe(string name, string adress, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string link, string eMail,
+        public Cafe(string name, string adress,GeoCoordinate place, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string link, string eMail,
             string password)
         {
             Name = name;
@@ -73,6 +76,7 @@ namespace Cafes
             this.link = link;
             email = eMail;
             this.Password = password;
+            Geo = place;
         }
 
 
