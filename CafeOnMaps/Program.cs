@@ -12,9 +12,6 @@ namespace Cafes
     {
         static void Main(string[] args)
         {
-            Cafe x = new Cafe("a", "c", new GeoCoordinate(1, 2), "2", new TimeSpan(1, 2, 6), new TimeSpan(1, 2, 3), "sdfweffwefw");
-            x.AddGrade(5);
-            Console.WriteLine(x.Rate());
             
 
             List<Cafe> cafes = new List<Cafe>();
