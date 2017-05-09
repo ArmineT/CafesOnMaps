@@ -14,8 +14,14 @@ namespace Cafes
         {
 
             //  Text File   //
-            StreamWriter output = new StreamWriter
-                (@"output.txt");
+            StreamWriter cafeSaver = new StreamWriter(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputCafe.txt");
+            StreamWriter accSaver = new StreamWriter(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputAcc.txt");
+            StreamWriter revSaver = new StreamWriter(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputRev.txt");
+
+
+            StreamReader cafeReader = new StreamReader(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputCafe.txt");
+            StreamReader accReader = new StreamReader(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputAcc.txt");
+            StreamReader revReader = new StreamReader(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputRev.txt");
             //  text File End   //
 
             List<Cafe> cafes = new List<Cafe>();
@@ -60,6 +66,13 @@ namespace Cafes
 
             // End Adding some dafault cafes    //
 
+            //  Reading cafes andd accounts from a file //
+
+            //for(int i = 0; i < cafeReader.ReadToEnd().Length; i += 11)
+            //{
+            //    cafes.Add(new Cafe(cafeReader.ReadToEnd()[i], cafeReader.ReadToEnd()[i + 1],)
+            //}
+
 
 
             while (true)
@@ -73,14 +86,33 @@ namespace Cafes
                     imUser = true;
                 else if (input.ToLower().Equals("exit"))
                 {
+                    //  Saving Cafes and Reviews   //
+
                     foreach (Cafe cafe in cafes)
                     {
-                        output.WriteLine(cafe);
-                        output.WriteLine("-----------------------------------------");
+                        cafeSaver.Write("{0} \n {1} \n {2} \n {3} \n {4} \n {5} \n {6} \n {7} \n {8}\n {9}\n {10}\n",
+                            cafe.Name, cafe.Address, cafe.Geo.Latitude, cafe.Geo.Longitude, cafe.PhoneNumber, cafe.openTime, cafe.closeTime,
+                            cafe.Link, cafe.eMail, cafe.Password, cafe.Rate());
+
+                        foreach(string rev in cafe.Review)
+                        {
+                            revSaver.WriteLine(rev);
+                        }
+                        revSaver.WriteLine("--------------------------------------------------");
+                        cafeSaver.WriteLine("--------------------------------------------------");
                     }
-                    output.Flush();
-                    output.Close();
-                    break;
+                    cafeSaver.Close();
+
+                    // End Cafe Saving and reviews  //
+
+                    //  Account Saving  //
+
+                    foreach (Account acc in accs)
+                    {
+                        accSaver.WriteLine(acc.Login + "\n" + acc.Password);
+                        accSaver.WriteLine("--------------------------------------------------");
+                    }
+                    accSaver.Close();
                 }
                 else
                 {
@@ -257,18 +289,12 @@ namespace Cafes
                             cafes.Add(new Cafe(cafeName, cafeAddress,new GeoCoordinate (latitude , longitude),cafePhoneNumber, openTime, closeTime,
                                 cafeLink, cafeEmail, cafePassword));
                             Console.WriteLine("Cafe added");
-
-                            output.WriteLine("------------------------");
-
                         }
                         else
                         {
                             cafes.Add(new Cafe(cafeName, cafeAddress, new GeoCoordinate(latitude, longitude), cafePhoneNumber, openTime, closeTime,
                                  cafePassword));
                             Console.WriteLine("Cafe added");
-
-                            output.WriteLine("------------------------");
-
                         }
 
                         Console.WriteLine();
@@ -1015,6 +1041,8 @@ namespace Cafes
                                     Console.WriteLine();
                                     break;
                                 }
+
+                                //  End User    //
                         }
 
                     }

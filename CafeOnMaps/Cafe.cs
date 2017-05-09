@@ -14,11 +14,11 @@ namespace Cafes
         private string password = "";
         private string link = "Cafe doesn't have a link, sorry.";
         private string email = "Cafe doesn't have an email, sorry.";
-        private TimeSpan openTime;
-        private TimeSpan closeTime;
         private List<int> grades = new List<int>();
         public List<string> Review = new List<string>();
         public GeoCoordinate Geo { get; set; }
+        public TimeSpan openTime { get; private set; }
+        public TimeSpan closeTime { get; private set; }
 
 
 
