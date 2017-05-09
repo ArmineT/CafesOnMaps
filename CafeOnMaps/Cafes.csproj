@@ -55,7 +55,6 @@
   <ItemGroup>
     <Content Include="outputAcc.txt" />
     <Content Include="outputCafe.txt" />
-    <Content Include="outputRev.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

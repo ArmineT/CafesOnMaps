@@ -13,16 +13,7 @@ namespace Cafes
         static void Main(string[] args)
         {
 
-            //  Text File   //
-            StreamWriter cafeSaver = new StreamWriter(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputCafe.txt");
-            StreamWriter accSaver = new StreamWriter(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputAcc.txt");
-            StreamWriter revSaver = new StreamWriter(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputRev.txt");
-
-
-            StreamReader cafeReader = new StreamReader(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputCafe.txt");
-            StreamReader accReader = new StreamReader(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputAcc.txt");
-            StreamReader revReader = new StreamReader(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputRev.txt");
-            //  text File End   //
+            
 
             List<Cafe> cafes = new List<Cafe>();
             TimeSpan openTime, closeTime;
@@ -42,6 +33,16 @@ namespace Cafes
             double longitude = 0;
             double distance = 0;
 
+            string name;
+            string address;
+            string phoneNumber;
+            GeoCoordinate coord;
+            TimeSpan open;
+            TimeSpan close;
+            string link;
+            string email;
+            int gradE;
+
             bool imAdmin = false;
             bool imUser = false;
             bool addACafe = false;
@@ -54,25 +55,63 @@ namespace Cafes
             bool invaildLogin = true;
             // Adding some default cafes    //
 
-            Cafe myFirstCafe = new Cafe("Centre", "Varshavyan 8", new GeoCoordinate(0, 0), "010 45 58 46", new TimeSpan(08, 30, 00),
-                                                         new TimeSpan(22, 30, 00), "CentrePassword");
-            Cafe mySecondCafe = new Cafe("AHA", "Shiraz 74",new GeoCoordinate(1,28), "010 22 22 21", new TimeSpan(07, 30, 00),
-                                                        new TimeSpan(23, 30, 00), "www.AHA.am", "AHA@mail.ru", "AHAPassword");
+            //Cafe myFirstCafe = new Cafe("Centre", "Varshavyan 8", new GeoCoordinate(0, 0), "010 45 58 46", new TimeSpan(08, 30, 00),
+            //                                             new TimeSpan(22, 30, 00), "CentrePassword");
+            //Cafe mySecondCafe = new Cafe("AHA", "Shiraz 74",new GeoCoordinate(1,28), "010 22 22 21", new TimeSpan(07, 30, 00),
+            //                                            new TimeSpan(23, 30, 00), "www.AHA.am", "AHA@mail.ru", "AHAPassword");
 
-            accs.Add(new Account("LoginA", "12345679888"));
+            
+            
+            //  Text File   //
+            StreamReader cafeReader = new StreamReader(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputCafe.txt");
+            StreamReader accReader = new StreamReader(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputAcc.txt");
 
-            cafes.Add(myFirstCafe);
-            cafes.Add(mySecondCafe);
+            while((input = cafeReader.ReadLine()) != null)
+            {
+                if (!input.Equals("-"))
+                {
+                    name = input;
+                    address = cafeReader.ReadLine();
+                    coord = new GeoCoordinate(Convert.ToDouble(cafeReader.ReadLine()),
+                        Convert.ToDouble(cafeReader.ReadLine()));
+                    phoneNumber = cafeReader.ReadLine();
+                    input = cafeReader.ReadLine();
+                    open = new TimeSpan(Convert.ToInt32(input.Split(':')[0])
+                        , Convert.ToInt32(input.Split(':')[1]), Convert.ToInt32(input.Split(':')[2]));
+                    input = cafeReader.ReadLine();
+                    close = new TimeSpan(Convert.ToInt32(input.Split(':')[0])
+                        , Convert.ToInt32(input.Split(':')[1]), Convert.ToInt32(input.Split(':')[2]));
+                    link = cafeReader.ReadLine();
+                    email = cafeReader.ReadLine();
+                    password = cafeReader.ReadLine();
+                    gradE = Convert.ToInt32(cafeReader.ReadLine());
+                    
+                    cafes.Add(new Cafe(name, address, coord, phoneNumber, open, close, link, email, password));
 
-            // End Adding some dafault cafes    //
+                    while(!(input = cafeReader.ReadLine()).Equals("-"))
+                    {
+                        cafes.Last().Review.Add(input);
+                    }
+                }   
+            }
 
-            //  Reading cafes andd accounts from a file //
+            while((input = accReader.ReadLine()) != null)
+            {
+                if (!input.Equals("-"))
+                {
+                    login = input;
+                    password = accReader.ReadLine();
 
-            //for(int i = 0; i < cafeReader.ReadToEnd().Length; i += 11)
-            //{
-            //    cafes.Add(new Cafe(cafeReader.ReadToEnd()[i], cafeReader.ReadToEnd()[i + 1],)
-            //}
+                    accs.Add(new Account(login, password));
+                }
+            }
 
+            cafeReader.Close();
+            accReader.Close();
+
+            StreamWriter cafeSaver = new StreamWriter(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputCafe.txt");
+            StreamWriter accSaver = new StreamWriter(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputAcc.txt");
+            //  text File End   //
 
 
             while (true)
@@ -90,16 +129,15 @@ namespace Cafes
 
                     foreach (Cafe cafe in cafes)
                     {
-                        cafeSaver.Write("{0} \n {1} \n {2} \n {3} \n {4} \n {5} \n {6} \n {7} \n {8}\n {9}\n {10}\n",
+                        cafeSaver.Write("{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n{10}\n",
                             cafe.Name, cafe.Address, cafe.Geo.Latitude, cafe.Geo.Longitude, cafe.PhoneNumber, cafe.openTime, cafe.closeTime,
                             cafe.Link, cafe.eMail, cafe.Password, cafe.Rate());
 
                         foreach(string rev in cafe.Review)
                         {
-                            revSaver.WriteLine(rev);
+                            cafeSaver.WriteLine(rev);
                         }
-                        revSaver.WriteLine("--------------------------------------------------");
-                        cafeSaver.WriteLine("--------------------------------------------------");
+                        cafeSaver.WriteLine("-");
                     }
                     cafeSaver.Close();
 
@@ -110,9 +148,11 @@ namespace Cafes
                     foreach (Account acc in accs)
                     {
                         accSaver.WriteLine(acc.Login + "\n" + acc.Password);
-                        accSaver.WriteLine("--------------------------------------------------");
+                        accSaver.WriteLine("-");
                     }
                     accSaver.Close();
+
+                    break;
                 }
                 else
                 {
@@ -654,7 +694,7 @@ namespace Cafes
 
                                         if (searchingCafeExist == false)
                                         {
-                                            Console.WriteLine("Cafe isn't exist");
+                                            Console.WriteLine("Cafe doesnt exist");
                                             Console.WriteLine("Here is our cafes by decreasing rates,please choose one:");
                                             for (int i = 0; i < cafes.Count; i++)
                                             {
