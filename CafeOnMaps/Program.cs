@@ -12,7 +12,9 @@ namespace Cafes
     {
         static void Main(string[] args)
         {
-
+            Cafe x = new Cafe("a", "c", new GeoCoordinate(1, 2), "2", new TimeSpan(1, 2, 6), new TimeSpan(1, 2, 3), "sdfweffwefw");
+            x.AddGrade(5);
+            Console.WriteLine(x.Rate());
             
 
             List<Cafe> cafes = new List<Cafe>();
@@ -41,7 +43,7 @@ namespace Cafes
             TimeSpan close;
             string link;
             string email;
-            int gradE;
+            int rate;
 
             bool imAdmin = false;
             bool imUser = false;
@@ -84,9 +86,10 @@ namespace Cafes
                     link = cafeReader.ReadLine();
                     email = cafeReader.ReadLine();
                     password = cafeReader.ReadLine();
-                    gradE = Convert.ToInt32(cafeReader.ReadLine());
+                    rate = Convert.ToInt32(cafeReader.ReadLine());
                     
                     cafes.Add(new Cafe(name, address, coord, phoneNumber, open, close, link, email, password));
+                    cafes.Last().AddGrade(rate);
 
                     while(!(input = cafeReader.ReadLine()).Equals("-"))
                     {
@@ -810,7 +813,7 @@ namespace Cafes
                                     while (imSearchingCafe)
                                     {
                                         searchingCafeExist = false;
-                                        Console.Write("Now, please, enter the name of cafe which you want to rate: ");
+                                        Console.Write("Now, please, enter the name of cafe which you want to grade: ");
                                         input = Console.ReadLine();
                                         for (int i = 0; i < cafes.Count; i++)
                                         {
