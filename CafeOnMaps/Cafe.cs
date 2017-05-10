@@ -189,7 +189,7 @@ namespace Cafes
         {
             string returnValue = String.Format("Name: {0} \nAdress: {1} \nPhone Number: {2}  \nLink: {3} \neMail: {4} \n",
                 Name, Address, PhoneNumber, link, email)
-                + String.Format("Open Time: {0}  \nClose Time: {1} \nRate: {2}\nAll reviews", openTime, closeTime, Rate());
+                + String.Format("Open Time: {0}  \nClose Time: {1} \nRate: {2}\nAll reviews", openTime, closeTime, this.Rate());
 
             foreach (String rev in Review)
             {
