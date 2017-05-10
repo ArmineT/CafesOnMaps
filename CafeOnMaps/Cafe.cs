@@ -14,7 +14,7 @@ namespace Cafes
         private string password = "";
         private string link = "Cafe doesn't have a link, sorry.";
         private string email = "Cafe doesn't have an email, sorry.";
-        private List<int> grades = new List<int>();
+        private List<decimal> grades = new List<decimal>();
         public List<string> Review = new List<string>();
         public GeoCoordinate Geo { get; set; }
         public TimeSpan openTime { get; private set; }
@@ -45,8 +45,8 @@ namespace Cafes
         public string Address { get; private set; }
         public string Name { get; private set; }
         public string PhoneNumber { get; private set; }
-        public string Link { get { return link; } private set { } }
-        public string eMail { get { return email; } private set { } }
+        public string Link { get { return link; } private set { link = value; } }
+        public string eMail { get { return email; } private set { email = value; } }
         public GeoCoordinate Coordinates { get; private set; }
 
 
@@ -80,14 +80,14 @@ namespace Cafes
         }
 
 
-        public void AddGrade(int grade)
+        public void AddGrade(decimal grade)
         {
             grades.Add(grade);
         }
 
         public decimal Rate()
         {
-            int sum = 0;
+            decimal sum = 0;
             if (grades.Count == 0)
                 return 0;
             foreach (int grade in grades)
@@ -150,7 +150,7 @@ namespace Cafes
 
             if (this.Password.Equals(password))
             {
-                this.Link = newLink;
+                this.link = newLink;
             }
         }
 

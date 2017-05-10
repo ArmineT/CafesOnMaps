@@ -13,8 +13,6 @@ namespace Cafes
         static void Main(string[] args)
         {
 
-            
-
             List<Cafe> cafes = new List<Cafe>();
             TimeSpan openTime, closeTime;
             Random rnd = new Random();
@@ -36,12 +34,14 @@ namespace Cafes
             string name;
             string address;
             string phoneNumber;
+            string cafePasswordForSave;
+            string accPasswordForSave;
             GeoCoordinate coord;
             TimeSpan open;
             TimeSpan close;
             string link;
             string email;
-            int gradE;
+            decimal rate;
 
             bool imAdmin = false;
             bool imUser = false;
@@ -60,13 +60,11 @@ namespace Cafes
             //Cafe mySecondCafe = new Cafe("AHA", "Shiraz 74",new GeoCoordinate(1,28), "010 22 22 21", new TimeSpan(07, 30, 00),
             //                                            new TimeSpan(23, 30, 00), "www.AHA.am", "AHA@mail.ru", "AHAPassword");
 
-            
-            
             //  Text File   //
-            StreamReader cafeReader = new StreamReader(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputCafe.txt");
-            StreamReader accReader = new StreamReader(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputAcc.txt");
+            StreamReader cafeReader = new StreamReader(@"C:\Users\Hayk\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputCafe.txt");
+            StreamReader accReader = new StreamReader(@"C:\Users\Hayk\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputAcc.txt");
 
-            while((input = cafeReader.ReadLine()) != null)
+            while ((input = cafeReader.ReadLine()) != null)
             {
                 if (!input.Equals("-"))
                 {
@@ -83,24 +81,37 @@ namespace Cafes
                         , Convert.ToInt32(input.Split(':')[1]), Convert.ToInt32(input.Split(':')[2]));
                     link = cafeReader.ReadLine();
                     email = cafeReader.ReadLine();
-                    password = cafeReader.ReadLine();
-                    gradE = Convert.ToInt32(cafeReader.ReadLine());
-                    
-                    cafes.Add(new Cafe(name, address, coord, phoneNumber, open, close, link, email, password));
 
-                    while(!(input = cafeReader.ReadLine()).Equals("-"))
+                    password = "";
+                    cafePasswordForSave = cafeReader.ReadLine();
+                    for (int i = 0; i < cafePasswordForSave.Length; i++)
+                    {
+                        password += (char)(cafePasswordForSave[i] - '1') + "";
+                    }
+
+                    rate = Convert.ToDecimal(cafeReader.ReadLine());
+
+                    cafes.Add(new Cafe(name, address, coord, phoneNumber, open, close, link, email, password));
+                    cafes.Last().AddGrade(rate);
+
+                    while (!(input = cafeReader.ReadLine()).Equals("-"))
                     {
                         cafes.Last().Review.Add(input);
                     }
-                }   
+                }
             }
 
-            while((input = accReader.ReadLine()) != null)
+            while ((input = accReader.ReadLine()) != null)
             {
                 if (!input.Equals("-"))
                 {
                     login = input;
-                    password = accReader.ReadLine();
+                    password = "";
+                    accPasswordForSave = accReader.ReadLine();
+                    for (int i = 0; i < accPasswordForSave.Length; i++)
+                    {
+                        password += (char)(accPasswordForSave[i] - '1') + "";
+                    }
 
                     accs.Add(new Account(login, password));
                 }
@@ -109,8 +120,8 @@ namespace Cafes
             cafeReader.Close();
             accReader.Close();
 
-            StreamWriter cafeSaver = new StreamWriter(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputCafe.txt");
-            StreamWriter accSaver = new StreamWriter(@"C:\Users\Sahak\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputAcc.txt");
+            StreamWriter cafeSaver = new StreamWriter(@"C:\Users\Hayk\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputCafe.txt");
+            StreamWriter accSaver = new StreamWriter(@"C:\Users\Hayk\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputAcc.txt");
             //  text File End   //
 
 
@@ -129,11 +140,18 @@ namespace Cafes
 
                     foreach (Cafe cafe in cafes)
                     {
+                        cafePasswordForSave = "";
+
+                        for (int i = 0; i < (cafe.Password).Length; i++)
+                        {
+                            cafePasswordForSave += (char)(cafe.Password[i] + '1') + "";
+                        }
+
                         cafeSaver.Write("{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n{10}\n",
                             cafe.Name, cafe.Address, cafe.Geo.Latitude, cafe.Geo.Longitude, cafe.PhoneNumber, cafe.openTime, cafe.closeTime,
-                            cafe.Link, cafe.eMail, cafe.Password, cafe.Rate());
+                            cafe.Link, cafe.eMail, cafePasswordForSave, cafe.Rate());
 
-                        foreach(string rev in cafe.Review)
+                        foreach (string rev in cafe.Review)
                         {
                             cafeSaver.WriteLine(rev);
                         }
@@ -147,7 +165,14 @@ namespace Cafes
 
                     foreach (Account acc in accs)
                     {
-                        accSaver.WriteLine(acc.Login + "\n" + acc.Password);
+
+                        accPasswordForSave = "";
+
+                        for (int i = 0; i < (acc.Password).Length; i++)
+                        {
+                            accPasswordForSave += (char)(acc.Password[i] + '1') + "";
+                        }
+                        accSaver.WriteLine(acc.Login + "\n" + accPasswordForSave);
                         accSaver.WriteLine("-");
                     }
                     accSaver.Close();
@@ -198,9 +223,9 @@ namespace Cafes
                         cafeAddress = Console.ReadLine();
                         while (true)
                         {
-                            Console.Write("Please,type latitude (Double integer): ");
+                            Console.Write("Please,type latitude (Double integer [-90;90]): ");
                             input = Console.ReadLine();
-                            if (double.TryParse(input, out latitude))
+                            if (double.TryParse(input, out latitude) && latitude >= -90 && latitude <= 90)
                                 break;
                             else
                                 Console.WriteLine("Please,follow the instructions.");
@@ -208,9 +233,9 @@ namespace Cafes
 
                         while (true)
                         {
-                            Console.Write("Please,type longitude (Double integer): ");
+                            Console.Write("Please,type longitude (Double integer [-180;180]: ");
                             input = Console.ReadLine();
-                            if (double.TryParse(input, out longitude))
+                            if (double.TryParse(input, out longitude) && longitude >= -180 && longitude <= 180)
                                 break;
                             else
                                 Console.WriteLine("Please,follow the instructions.");
@@ -326,7 +351,7 @@ namespace Cafes
 
                         if (eMailAndLinkExist)
                         {
-                            cafes.Add(new Cafe(cafeName, cafeAddress,new GeoCoordinate (latitude , longitude),cafePhoneNumber, openTime, closeTime,
+                            cafes.Add(new Cafe(cafeName, cafeAddress, new GeoCoordinate(latitude, longitude), cafePhoneNumber, openTime, closeTime,
                                 cafeLink, cafeEmail, cafePassword));
                             Console.WriteLine("Cafe added");
                         }
@@ -477,7 +502,10 @@ namespace Cafes
                                                 {
                                                     Console.Write("Type a new Link: ");
                                                     cafeLink = Console.ReadLine();
-                                                    if (CheckLink(cafeLink)) { break; }
+                                                    if (CheckLink(cafeLink))
+                                                    {
+                                                        break;
+                                                    }
                                                     else
                                                     {
                                                         Console.WriteLine();
@@ -604,9 +632,9 @@ namespace Cafes
                                     Console.WriteLine("Plese, type your geolocation and the distance from you where you want to find cafes...");
                                     while (true)
                                     {
-                                        Console.Write("Latitude: ");
+                                        Console.Write("Latitude[-90;90]: ");
                                         input = Console.ReadLine();
-                                        if (double.TryParse(input, out latitude))
+                                        if (double.TryParse(input, out latitude) && latitude >= -90 && latitude < 90)
                                             break;
                                         else
                                         {
@@ -614,11 +642,12 @@ namespace Cafes
                                             Console.WriteLine("Please, follow instructions.\n");
                                         }
                                     }
+
                                     while (true)
                                     {
-                                        Console.Write("Longitude: ");
+                                        Console.Write("Longitude [-180;180]: ");
                                         input = Console.ReadLine();
-                                        if (double.TryParse(input, out longitude))
+                                        if (double.TryParse(input, out longitude) && longitude >= -180 && longitude <= 180)
                                             break;
                                         else
                                             Console.WriteLine("\nPlease, follow instructions.\n");
@@ -634,14 +663,14 @@ namespace Cafes
                                             Console.WriteLine("\nPlease, follow instructions.\n");
                                     }
 
-                                    foreach(Cafe caf in cafes)
+                                    foreach (Cafe caf in cafes)
                                     {
-                                        if(caf.Geo.GetDistanceTo(new GeoCoordinate(latitude, longitude)) <= distance)
+                                        if (caf.Geo.GetDistanceTo(new GeoCoordinate(latitude, longitude)) <= distance)
                                         {
                                             outgo += caf.Name + "\n";
                                         }
                                     }
-                                    if(outgo.Equals(""))
+                                    if (outgo.Equals(""))
                                     {
                                         Console.WriteLine("There is no cafe from you by that distance.");
                                     }
@@ -810,7 +839,7 @@ namespace Cafes
                                     while (imSearchingCafe)
                                     {
                                         searchingCafeExist = false;
-                                        Console.Write("Now, please, enter the name of cafe which you want to rate: ");
+                                        Console.Write("Now, please, enter the name of cafe which you want to grade: ");
                                         input = Console.ReadLine();
                                         for (int i = 0; i < cafes.Count; i++)
                                         {
@@ -1158,5 +1187,3 @@ namespace Cafes
     }
 
 }
-
-
