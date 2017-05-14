@@ -8,8 +8,15 @@ namespace Cafes
 {
     class Account
     {
+
+        //  Fields  //
+
         private string login = "";
         private string password = "";
+
+        //  End Fields  //
+
+        // Proparties   //
 
         public string Login
         {
@@ -35,11 +42,16 @@ namespace Cafes
             }
         }
 
+        //  End Proparties  //
+
+        //  Constructors    //
+
         public Account(string login, string password)
         {
             Login = login;
             Password = password;
         }
 
+        //  End Constructors    //
     }
 }

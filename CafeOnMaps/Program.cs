@@ -18,6 +18,9 @@ namespace Cafes
             Random rnd = new Random();
             List<Account> accs = new List<Account>();
             ConsoleKeyInfo key;
+            GeoCoordinate coord;
+            TimeSpan open;
+            TimeSpan close;
 
             string input = "";
             string cafeName, cafeAddress, cafePhoneNumber, cafePassword = "";
@@ -36,9 +39,6 @@ namespace Cafes
             string phoneNumber;
             string cafePasswordForSave;
             string accPasswordForSave;
-            GeoCoordinate coord;
-            TimeSpan open;
-            TimeSpan close;
             string link;
             string email;
             decimal rate;
@@ -119,7 +119,7 @@ namespace Cafes
             StreamWriter accSaver = new StreamWriter(@"C:\Users\Hayk\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputAcc.txt");
             //  text File End   //
 
-
+            //  Starting Program   //
             while (true)
             {
                 Console.WriteLine("Print \"User\" if you are user. \nPrint \"Admin\" if you are administrator.\nPrint \"Exit\" if you want to exit all.");
@@ -154,7 +154,7 @@ namespace Cafes
                     }
                     cafeSaver.Close();
 
-                    // End Cafe Saving and reviews  //
+                    // End Savin Cafe and reviews  //
 
                     //  Account Saving  //
 
@@ -171,6 +171,8 @@ namespace Cafes
                         accSaver.WriteLine("-");
                     }
                     accSaver.Close();
+
+                    //  End Account Saving  //
 
                     break;
                 }
@@ -378,7 +380,7 @@ namespace Cafes
 
                     // End Adding cafe  //
 
-                    // Making chanhges as Admin //
+                    // Making changes as Admin //
 
                     while (makeChanges)
                     {
@@ -607,9 +609,7 @@ namespace Cafes
                                     }
                                 }
                             }
-                            //
-
-                            //
+                           
                             if (cafeExist == false && i == cafes.Count() - 1)
                             {
                                 Console.WriteLine("================================================");
@@ -826,7 +826,6 @@ namespace Cafes
                                                         break;
                                                     else
                                                         Console.WriteLine("Please,follow the instructions!");
-
                                                 }
                                             }
                                         }
@@ -843,8 +842,6 @@ namespace Cafes
                                     }
                                     break;
                                 }
-
-
 
                             case "grade":
                                 {
@@ -911,6 +908,7 @@ namespace Cafes
                                             }
                                         }
                                     }
+
                                     while (imSearchingCafe)
                                     {
                                         searchingCafeExist = false;
@@ -973,7 +971,6 @@ namespace Cafes
                                     }
                                     break;
                                 }
-
 
                             case "review":
                                 {
@@ -1071,8 +1068,6 @@ namespace Cafes
                                     }
                                     break;
                                 }
-
-
 
                             case "create":
                                 {
@@ -1188,11 +1183,12 @@ namespace Cafes
 
                                 //  End User    //
                         }
-
                     }
                 }
-
             }
+
+            //  End Program //
+
         }
 
         /////////////   Methods //////////////////////////////////////////////
@@ -1260,5 +1256,7 @@ namespace Cafes
                 return true;
         }
     }
+
+    //  End Methods //
 
 }

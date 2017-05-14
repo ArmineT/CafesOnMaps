@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using System.Device.Location;
 
 namespace Cafes
-
 {
 
-    internal class Cafe : IComparable<Cafe>
+    class Cafe : IComparable<Cafe>
     {
+       
+        //  Fields  //
+
         private string password = "";
         private string link = "Cafe doesn't have a link, sorry.";
         private string email = "Cafe doesn't have an email, sorry.";
@@ -20,8 +22,9 @@ namespace Cafes
         public TimeSpan openTime { get; private set; }
         public TimeSpan closeTime { get; private set; }
 
+        // End Fields   //
 
-
+        // Proparties   //
 
         public string Password
         {
@@ -49,9 +52,9 @@ namespace Cafes
         public string eMail { get { return email; } private set { email = value; } }
         public GeoCoordinate Coordinates { get; private set; }
 
+        // End Proparties   //
 
-
-
+        // Constructors //
 
         public Cafe(string name, string adress, GeoCoordinate place, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string password)
         {
@@ -79,6 +82,9 @@ namespace Cafes
             Geo = place;
         }
 
+        //  End Constructors    //
+
+        //  Methods //
 
         public void AddGrade(decimal grade)
         {
@@ -98,8 +104,6 @@ namespace Cafes
             return (decimal)sum / grades.Count;
         }
 
-
-
         public bool IsOpenNow()
         {
             if (TimeSpan.Compare(openTime, DateTime.Now.TimeOfDay) >= 0 && TimeSpan.Compare(closeTime, DateTime.Now.TimeOfDay) <= 0)
@@ -107,9 +111,6 @@ namespace Cafes
             else
                 return false;
         }
-
-
-
 
         public string OpenTimes()
         {
@@ -123,7 +124,6 @@ namespace Cafes
             {
                 this.Name = newName;
             }
-
         }
 
         public void ChangeCafeAddress(string password, string newAddress)
@@ -134,7 +134,6 @@ namespace Cafes
                 this.Address = newAddress;
             }
         }
-
 
         public void ChangeCafePhoneNumber(string password, string newPhoneNumber)
         {
@@ -154,7 +153,6 @@ namespace Cafes
             }
         }
 
-
         public void ChangeCafeEmail(string password, string newEmail)
         {
 
@@ -162,10 +160,7 @@ namespace Cafes
             {
                 this.eMail = newEmail;
             }
-
         }
-
-
 
         public void ChangeCafeOpenTime(string password, TimeSpan newOpenTime)
         {
@@ -175,7 +170,6 @@ namespace Cafes
                 this.openTime = newOpenTime;
             }
         }
-
 
         public void ChangeCafeCloseTime(string password, TimeSpan newCloseTime)
         {
@@ -199,7 +193,6 @@ namespace Cafes
             {
                 this.Password = newPassword;
             }
-
         }
 
         public override string ToString()
@@ -224,6 +217,8 @@ namespace Cafes
             else
                 return -1;
         }
+
+        //  End Methods //
     }
 }
 
