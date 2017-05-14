@@ -53,12 +53,7 @@ namespace Cafes
             bool inputIsFalse = true;
             bool eMailAndLinkExist = false;
             bool invaildLogin = true;
-            // Adding some default cafes    //
 
-            //Cafe myFirstCafe = new Cafe("Centre", "Varshavyan 8", new GeoCoordinate(0, 0), "010 45 58 46", new TimeSpan(08, 30, 00),
-            //                                             new TimeSpan(22, 30, 00), "CentrePassword");
-            //Cafe mySecondCafe = new Cafe("AHA", "Shiraz 74",new GeoCoordinate(1,28), "010 22 22 21", new TimeSpan(07, 30, 00),
-            //                                            new TimeSpan(23, 30, 00), "www.AHA.am", "AHA@mail.ru", "AHAPassword");
 
             //  Text File   //
             StreamReader cafeReader = new StreamReader(@"C:\Users\Hayk\Documents\Visual Studio 2015\Projects\CafeOnMaps\CafeOnMaps\outputCafe.txt");
@@ -255,7 +250,7 @@ namespace Cafes
                                     Convert.ToInt16(hourAndMinute[1]), 0);
                                 break;
                             }
-                            catch (System.FormatException)
+                            catch (FormatException)
                             {
                                 Console.WriteLine("Incorrect input!");
                             }
@@ -271,7 +266,7 @@ namespace Cafes
                                     Convert.ToInt16(hourAndMinute[1]), 0);
                                 break;
                             }
-                            catch (System.FormatException e)
+                            catch (FormatException)
                             {
                                 Console.WriteLine("Incorrect input!");
                             }
@@ -339,7 +334,7 @@ namespace Cafes
                                 }
                             }
 
-                            if (cafePassword.Length >= 9)
+                            if (cafePassword.Length >= 8)
                             {
                                 break;
                             }
@@ -438,6 +433,7 @@ namespace Cafes
                                     Console.WriteLine("Change cafe phone number           Type \"Change Phone Number\". ");
                                     Console.WriteLine("Change cafe Email                  Type \"Change Email\". ");
                                     Console.WriteLine("Change cafe link                   Type \"Change Link\". ");
+                                    Console.WriteLine("Change cafe password               Type \"Change password\". ");
                                     Console.WriteLine("If end your work with this caffe   Type \"Finish work with this cafe\". ");
                                     Console.WriteLine("If end your work with all changes  Type \"Finish work with changes\". ");
                                     Console.WriteLine("==========================================================================");
@@ -462,6 +458,30 @@ namespace Cafes
                                                 Console.WriteLine("The address was changed.");
                                                 Console.WriteLine();
 
+                                                Console.Write("Now you must set new GeoCoordinates too.");
+                                                while (true)
+                                                {
+                                                    Console.Write("Please, type new latitude (Double integer [-90;90]): ");
+                                                    input = Console.ReadLine();
+                                                    if (double.TryParse(input, out latitude) && latitude >= -90 && latitude <= 90)
+                                                        break;
+                                                    else
+                                                        Console.WriteLine("Please,follow the instructions!");
+                                                }
+
+                                                while (true)
+                                                {
+                                                    Console.Write("Please, type new longitude (Double integer [-180;180]: ");
+                                                    input = Console.ReadLine();
+                                                    if (double.TryParse(input, out longitude) && longitude >= -180 && longitude <= 180)
+                                                        break;
+                                                    else
+                                                        Console.WriteLine("Please,follow the instructions!");
+                                                }
+
+                                                cafes[i].ChangeGeoCoordinates(cafePassword, new GeoCoordinate(latitude, longitude));
+                                                Console.WriteLine("The coordinates also changed.");
+                                                Console.WriteLine();
                                                 break;
                                             }
 
@@ -521,6 +541,47 @@ namespace Cafes
                                                 break;
                                             }
 
+                                        case "change password":
+                                            {
+                                                while (true)
+                                                {
+                                                    Console.Write("Type a new Password: ");
+                                                    cafePassword = "";
+
+                                                    key = Console.ReadKey(true);
+                                                    cafePassword += key.KeyChar;
+                                                    Console.Write("*");
+
+                                                    while (key.Key != ConsoleKey.Enter)
+                                                    {
+                                                        key = Console.ReadKey(true);
+
+                                                        if (key.Key == ConsoleKey.Enter)
+                                                            break;
+
+                                                        if (key.Key != ConsoleKey.Backspace)
+                                                        {
+                                                            cafePassword += key.KeyChar;
+                                                            Console.Write("*");
+                                                        }
+                                                        else
+                                                        {
+                                                            Console.Write("\b");
+                                                        }
+                                                    }
+
+                                                    if (cafePassword.Length >= 8) { break; }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("\nInvalid password (It must be more than 7 characters)\n");
+                                                    }
+
+                                                }
+
+                                                cafes[i].ChangeCafePassword(cafes[i].Password, cafePassword);
+                                                Console.WriteLine("\nThe password was changed.\n");
+                                                break;
+                                            }
                                         case "finish work with this cafe":
                                             {
                                                 Console.WriteLine("Thank you for making changes.");
@@ -787,6 +848,7 @@ namespace Cafes
 
                             case "grade":
                                 {
+                                    imSearchingCafe = true;
                                     bool loginFailed = true;
                                     while (loginFailed)
                                     {
@@ -832,10 +894,23 @@ namespace Cafes
                                         }
 
                                         if (invaildLogin)
+                                        {
                                             Console.WriteLine("Invalid login or password!");
-
+                                            while (true)
+                                            {
+                                                Console.WriteLine("Do you want try again?");
+                                                input = Console.ReadLine().ToLower();
+                                                if (input.Equals("yes"))
+                                                    break;
+                                                else if (input.Equals("no"))
+                                                {
+                                                    loginFailed = false;
+                                                    imSearchingCafe = false;
+                                                    break;
+                                                }
+                                            }
+                                        }
                                     }
-                                    imSearchingCafe = true;
                                     while (imSearchingCafe)
                                     {
                                         searchingCafeExist = false;

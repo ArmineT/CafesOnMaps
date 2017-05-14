@@ -53,7 +53,7 @@ namespace Cafes
 
 
 
-        public Cafe(string name, string adress,GeoCoordinate place, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string password)
+        public Cafe(string name, string adress, GeoCoordinate place, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string password)
         {
             Name = name;
             Address = adress;
@@ -65,7 +65,7 @@ namespace Cafes
         }
 
 
-        public Cafe(string name, string adress,GeoCoordinate place, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string link, string eMail,
+        public Cafe(string name, string adress, GeoCoordinate place, string phonenumber, TimeSpan openTime, TimeSpan closeTime, string link, string eMail,
             string password)
         {
             Name = name;
@@ -183,6 +183,23 @@ namespace Cafes
             {
                 this.closeTime = newCloseTime;
             }
+        }
+
+        public void ChangeGeoCoordinates(string password, GeoCoordinate newGeo)
+        {
+            if (this.Password.Equals(password))
+            {
+                this.Geo = newGeo;
+            }
+        }
+
+        public void ChangeCafePassword(string oldPassword, string newPassword)
+        {
+            if (this.Password.Equals(oldPassword))
+            {
+                this.Password = newPassword;
+            }
+
         }
 
         public override string ToString()
